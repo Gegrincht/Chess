@@ -18,18 +18,18 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InternalChess.cpp">
+    <ClCompile Include="src\InternalChess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultBoard.h">
+    <ClCompile Include="src\DefaultBoard.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultBoard.cpp">
+    <ClCompile Include="src\DefaultBoard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChessGame.h">
+    <ClInclude Include="src\ChessGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

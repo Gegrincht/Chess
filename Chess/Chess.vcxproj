@@ -149,13 +149,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DefaultBoard.cpp" />
-    <ClCompile Include="DefaultBoard.h" />
-    <ClCompile Include="InternalChess.cpp" />
+    <ClCompile Include="src\DefaultBoard.cpp" />
+    <ClCompile Include="src\DefaultBoard.h" />
+    <ClCompile Include="src\InternalChess.cpp" />
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ChessGame.h" />
+    <ClInclude Include="src\ChessGame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
