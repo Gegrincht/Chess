@@ -29,6 +29,7 @@ bool ChessGame::movePiece(int fromX, int fromY, int toX, int toY) {
     if (board[fromX][fromY].type != PieceType::NONE) {
         board[toX][toY] = board[fromX][fromY];
         board[fromX][fromY].type = PieceType::NONE;
+        board[fromX][fromY].color = Color::NONE;
         return true; } else { return false; }
 }
 
@@ -59,16 +60,20 @@ Piece* ChessGame::getPieceAt(char x, int y)
 
 //Moves
 
-std::vector<Move> ChessGame::generateMoves(Color color) {
+std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every chess pieces moves and puts it all in a vector 
     std::vector<Move> generatedMoves;
+    if (color == Color::NONE) return generatedMoves;
+
+    generatedMoves.reserve(32);
+
     for (int file = 0; file <= 7; file++) {
         for (int rank = 0; rank <= 7; rank++) {
-            if (board[file][rank].color == color);
+            if (board[file][rank].color != color || board[file][rank].type == PieceType::NONE)
+                continue;
             std::vector<Move> x = getMoves(file, rank);
             generatedMoves.insert(generatedMoves.end(), x.begin(), x.end());
         }
     }
-
     return generatedMoves;
 }
 

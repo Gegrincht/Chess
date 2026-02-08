@@ -31,8 +31,8 @@ class ChessGame {
 
     Piece* getPieceAt(int x, int y);
     bool movePiece(int fromX, int fromY, int toX, int toY);
-    std::vector<Move> generateMoves(Color color);
-    std::vector<Move> getMoves(int x, int y);
+    std::vector<Move> generateMoves(Color color) const;
+    std::vector<Move> getMoves(int x, int y) const;
 public:
     Board board; // Create the Board
 
