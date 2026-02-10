@@ -8,6 +8,8 @@
 
 /*
 TODO LIST: ----------
+* | make all methods that i can use refrences as its cleaner and better to program later.
+
 * | make std::cout << format(Piece.type, "name") and "char" possible 
   | so you can print out the name of the piece or char
 
@@ -15,6 +17,11 @@ TODO LIST: ----------
  
 * | check if my moves sets my king in check or if my king is in still in 
   | check if i do my next move
+
+* | impliment following methods:
+  -> getMoves(char file, int rank); & getMoves(Piece curPiece);
+  -> isInCheck(Color color);
+  -> wouldBeInCheckAfterMove(const& Move)
 */
 
 
