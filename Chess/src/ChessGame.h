@@ -6,14 +6,6 @@
 enum class PieceType { NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
 enum class Color { NONE, WHITE, BLACK };
 
-struct Move {
-    int fromX, fromY;
-    int toX, toY;
-    Color allowedParty;
-    
-    Move(Board& board, int ifromX, int ifromY, int itoX, int itoY);
-};
-
 struct Piece {
     PieceType type = PieceType::NONE;
     Color color;
@@ -22,8 +14,15 @@ struct Piece {
     Piece(PieceType giventype, Color givencolor);
 };
 
-
 using Board = std::array<std::array<Piece, 8>, 8>;
+
+struct Move {
+    int fromX, fromY;
+    int toX, toY;
+    Color allowedParty;
+
+    Move(Board& board, int ifromX, int ifromY, int itoX, int itoY);
+};
 
 class ChessGame {
     std::vector<Move> whiteMoves;
@@ -40,3 +39,7 @@ public:
     Piece* getPieceAt(char x, int y);
     bool movePiece(char fromX, int fromY, char toX, int toY);
 };
+
+static int colCharToIndex(char col); 
+
+static bool outOfBoard(int x);

@@ -3,6 +3,20 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <algorithm>
+#include <cctype>
+
+/*
+TODO LIST: ----------
+* | make std::cout << format(Piece.type, "name") and "char" possible 
+  | so you can print out the name of the piece or char
+
+* | make legallity movement checks aka check if that piece can move this way and stuff
+ 
+* | check if my moves sets my king in check or if my king is in still in 
+  | check if i do my next move
+*/
+
 
 Piece::Piece(PieceType giventype, Color givencolor)
 	: type(giventype), color(givencolor) {}
@@ -47,7 +61,7 @@ bool ChessGame::movePiece(char fromX, int fromY, char toX, int toY) {
 
 Piece* ChessGame::getPieceAt(int x, int y)
 {
-    if (x < 0 || x > 7 || y < 0 || y > 7 || board[x][y].type == PieceType::NONE)
+    if (x < 0 || x > 7 || y < 0 || y > 7)
         return NULL;
     return &board[x][y];
 }
@@ -64,7 +78,7 @@ std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every c
     std::vector<Move> generatedMoves;
     if (color == Color::NONE) return generatedMoves;
 
-    generatedMoves.reserve(32);
+    generatedMoves.reserve(220);
 
     for (int file = 0; file <= 7; file++) {
         for (int rank = 0; rank <= 7; rank++) {
@@ -76,6 +90,13 @@ std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every c
     }
     return generatedMoves;
 }
+
+std::vector<Move> ChessGame::getMoves(int x, int y) const {
+    return std::vector<Move>{};
+}
+
+
+// Static Methods
 
 static int colCharToIndex(char col) {
     col = std::toupper(col);
@@ -93,40 +114,69 @@ static bool outOfBoard(int x) {
 
 
 
+// TESTING SPECIFIC FUNTIONS
+
+static void toLower(std::string& s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+        [](unsigned char c) {return std::tolower(c); });
+}
+
+static char getPieceIcon(Piece& cur) {
+    char c;
+    switch (cur.type) {
+        case PieceType::PAWN:   c = 'P'; break;
+        case PieceType::ROOK:   c = 'R'; break;
+        case PieceType::KNIGHT: c = 'N'; break;
+        case PieceType::BISHOP: c = 'B'; break;
+        case PieceType::QUEEN:  c = 'Q'; break;
+        case PieceType::KING:   c = 'K'; break;
+        default: c = '.'; break;
+    }
+
+    if (cur.color == Color::BLACK)
+        c = std::tolower(c);
+
+    return c;
+}
+
+static std::string getPieceName(Piece& cur) {
+    std::string c;
+    switch (cur.type) {
+        case PieceType::PAWN:   c = "PAWN"; break;
+        case PieceType::ROOK:   c = "ROOK"; break;
+        case PieceType::KNIGHT: c = "KNIGHT"; break;
+        case PieceType::BISHOP: c = "BISHOP"; break;
+        case PieceType::QUEEN:  c = "QUEEN"; break;
+        case PieceType::KING:   c = "KING"; break;
+        default: c = "None"; break;
+    }
+    if (cur.color == Color::BLACK)
+        toLower(c);
+    return c;
+}
+
+void printBoard(ChessGame& game) {
+    std::cout << "     A B C D E F G H\n  |-------------------|\n";
+    for (int y = 7; y >= 0; --y) {      // print top to bottom
+        std::cout << y + 1 << " |  ";
+        for (int x = 0; x < 8; ++x) {
+            char c = getPieceIcon(game.board[x][y]);
+
+            std::cout << c << " ";
+        }
+        std::cout << " | " << y + 1 << "\n";
+    }
+    std::cout << "  |-------------------|\n     A B C D E F G H\n";
+}
+
 
 
 int main() {
     ChessGame game;
 
+    printBoard(game);
 
-
-    
     //while (1) {
-        std::cout << "     A B C D E F G H\n  |-------------------|\n";
-        for (int y = 7; y >= 0; --y) {      // print top to bottom
-            std::cout << y + 1 << " |  ";
-            for (int x = 0; x < 8; ++x) {
-                char c = '.'; // empty square
-
-                switch (game.board[x][y].type) {
-                case PieceType::PAWN:   c = 'P'; break;
-                case PieceType::ROOK:   c = 'R'; break;
-                case PieceType::KNIGHT: c = 'N'; break;
-                case PieceType::BISHOP: c = 'B'; break;
-                case PieceType::QUEEN:  c = 'Q'; break;
-                case PieceType::KING:   c = 'K'; break;
-                default: c = '.'; break;
-                }
-
-                // optional: lowercase for black
-                if (game.board[x][y].color == Color::BLACK)
-                    c = std::tolower(c);
-
-                std::cout << c << " ";
-            }
-            std::cout << " | " << y + 1 << "\n";
-        }
-        std::cout << "  |-------------------|\n     A B C D E F G H\n";
         /*
         std::string from, to;
         std::cout << "What to move: ";
@@ -138,9 +188,10 @@ int main() {
         game.movePiece(from[0], fromRow, to[0], toRow);
         */
     //}
+    
     std::string pos;
 
-    std::cout << "Format ex: b2\nöwhat do you wanna get: ";
+    std::cout << "Format ex: b2\nwhat do you wanna get: ";
     std::cin >> pos;
 
     int row = pos[1] - '0';
@@ -148,21 +199,23 @@ int main() {
     Piece myPiece = *game.getPieceAt(pos[0], row);
 
     
-    char c = '.'; // empty square
+    const char c = getPieceIcon(myPiece);
 
-    switch (myPiece.type) {
-    case PieceType::PAWN:   c = 'P'; break;
-    case PieceType::ROOK:   c = 'R'; break;
-    case PieceType::KNIGHT: c = 'N'; break;
-    case PieceType::BISHOP: c = 'B'; break;
-    case PieceType::QUEEN:  c = 'Q'; break;
-    case PieceType::KING:   c = 'K'; break;
-    default: c = '.'; break;
+    const std::string name = getPieceName(myPiece);
+
+    std::string color;
+    switch (myPiece.color)
+    {
+        case Color::WHITE:
+            color = "White"; break;
+        case Color::BLACK:
+            color = "Black"; break;
+        default:
+            color = "None";  break;
     }
 
-    // optional: lowercase for black
-    if (myPiece.color == Color::BLACK)
-        c = std::tolower(c);
-
-    std::cout << c << " " << static_cast<int>(myPiece.type) << std::endl;
+    std::cout << "PieceIcon: " << c << 
+        "\nPieceName: " << color << " " << name << 
+        "\nTypeValue: " << static_cast<int>(myPiece.type) << 
+        std::endl;
 }
