@@ -8,20 +8,31 @@ enum class Color { NONE, WHITE, BLACK };
 
 struct Piece {
     PieceType type = PieceType::NONE;
-    Color color;
+    Color color = Color::NONE;
 
     Piece() = default;
     Piece(PieceType giventype, Color givencolor);
+
+    char getPieceIcon() const;
+    std::string getPieceName() const;
+private:
+    void toLower(std::string& s) const;
+    
 };
 
-using Board = std::array<std::array<Piece, 8>, 8>;
+using Board = std::array<std::array<Piece, 8>, 8>; // defines the chess board
 
 struct Move {
-    int fromX, fromY;
-    int toX, toY;
+    unsigned int fromX : 3;
+    unsigned int fromY : 3;
+    unsigned int toX : 3;
+    unsigned int toY : 3;
+
     Color allowedParty;
 
-    Move(Board& board, int ifromX, int ifromY, int itoX, int itoY);
+
+
+    Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY);
 };
 
 class ChessGame {
@@ -29,7 +40,7 @@ class ChessGame {
     std::vector<Move> blackMoves;
 
     Piece* getPieceAt(int x, int y);
-    bool movePiece(int fromX, int fromY, int toX, int toY);
+    bool movePiece(Move move);
     std::vector<Move> generateMoves(Color color) const;
     std::vector<Move> getMoves(int x, int y) const;
 public:

@@ -8,8 +8,6 @@
 
 /*
 TODO LIST: ----------
-* | make all methods that i can use refrences as its cleaner and better to program later.
-
 * | make std::cout << format(Piece.type, "name") and "char" possible 
   | so you can print out the name of the piece or char
 
@@ -24,34 +22,69 @@ TODO LIST: ----------
   -> wouldBeInCheckAfterMove(const& Move)
 */
 
-
 Piece::Piece(PieceType giventype, Color givencolor)
 	: type(giventype), color(givencolor) {}
 
-Move::Move(Board& board, int ifromX, int ifromY, int itoX, int itoY)
+void Piece::toLower(std::string& s) const {
+    std::transform(s.begin(), s.end(), s.begin(),
+        [](unsigned char c) {return std::tolower(c); });
+}
+
+char Piece::getPieceIcon() const {
+    char c;
+    switch (type) {
+    case PieceType::PAWN:   c = 'P'; break;
+    case PieceType::ROOK:   c = 'R'; break;
+    case PieceType::KNIGHT: c = 'N'; break;
+    case PieceType::BISHOP: c = 'B'; break;
+    case PieceType::QUEEN:  c = 'Q'; break;
+    case PieceType::KING:   c = 'K'; break;
+    default: c = '.'; break;
+    }
+
+    if (color == Color::BLACK)
+        c = std::tolower(c);
+
+    return c;
+}
+
+std::string Piece::getPieceName() const {
+    std::string c;
+    switch (type) {
+    case PieceType::PAWN:   c = "PAWN"; break;
+    case PieceType::ROOK:   c = "ROOK"; break;
+    case PieceType::KNIGHT: c = "KNIGHT"; break;
+    case PieceType::BISHOP: c = "BISHOP"; break;
+    case PieceType::QUEEN:  c = "QUEEN"; break;
+    case PieceType::KING:   c = "KING"; break;
+    default: c = "None"; break;
+    }
+    if (color == Color::BLACK)
+        toLower(c);
+    return c;
+}
+
+// MOVE FUCTION
+
+Move::Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY)
     : fromX(ifromX), fromY(ifromY), toX(itoX), toY(itoY) { 
 
-    if (outOfBoard(ifromX) ||
-        outOfBoard(ifromY) ||
-        outOfBoard(itoX) ||
-        outOfBoard(itoY))
+    if (outOfBoard(ifromX) || outOfBoard(ifromY) ||
+        outOfBoard(itoX) || outOfBoard(itoY))
         throw std::out_of_range("Move coordinates are out of board");
 
     Piece& thisPiece = board[fromX][fromY];
-    if (thisPiece.type == PieceType::NONE)
-        allowedParty = Color::NONE;
-    else { allowedParty = thisPiece.color; }
+    allowedParty = (thisPiece.type == PieceType::NONE) ? Color::NONE : thisPiece.color;
 }
 
 
 ChessGame::ChessGame() : board(initDefaultBoard()) {} // do initializer list
 
-bool ChessGame::movePiece(int fromX, int fromY, int toX, int toY) {
-    if (board[fromX][fromY].type != PieceType::NONE) {
-        board[toX][toY] = board[fromX][fromY];
-        board[fromX][fromY].type = PieceType::NONE;
-        board[fromX][fromY].color = Color::NONE;
-        return true; } else { return false; }
+bool ChessGame::movePiece(Move move) {
+    if (board[move.fromX][move.fromY].type == PieceType::NONE) return false; 
+    board[move.toX][move.toY] = board[move.fromX][move.fromY];
+    board[move.fromX][move.fromY] = {PieceType::NONE, Color::NONE};
+    return true;
 }
 
 bool ChessGame::movePiece(char fromX, int fromY, char toX, int toY) {
@@ -123,51 +156,14 @@ static bool outOfBoard(int x) {
 
 // TESTING SPECIFIC FUNTIONS
 
-static void toLower(std::string& s) {
-    std::transform(s.begin(), s.end(), s.begin(),
-        [](unsigned char c) {return std::tolower(c); });
-}
 
-static char getPieceIcon(Piece& cur) {
-    char c;
-    switch (cur.type) {
-        case PieceType::PAWN:   c = 'P'; break;
-        case PieceType::ROOK:   c = 'R'; break;
-        case PieceType::KNIGHT: c = 'N'; break;
-        case PieceType::BISHOP: c = 'B'; break;
-        case PieceType::QUEEN:  c = 'Q'; break;
-        case PieceType::KING:   c = 'K'; break;
-        default: c = '.'; break;
-    }
-
-    if (cur.color == Color::BLACK)
-        c = std::tolower(c);
-
-    return c;
-}
-
-static std::string getPieceName(Piece& cur) {
-    std::string c;
-    switch (cur.type) {
-        case PieceType::PAWN:   c = "PAWN"; break;
-        case PieceType::ROOK:   c = "ROOK"; break;
-        case PieceType::KNIGHT: c = "KNIGHT"; break;
-        case PieceType::BISHOP: c = "BISHOP"; break;
-        case PieceType::QUEEN:  c = "QUEEN"; break;
-        case PieceType::KING:   c = "KING"; break;
-        default: c = "None"; break;
-    }
-    if (cur.color == Color::BLACK)
-        toLower(c);
-    return c;
-}
 
 void printBoard(ChessGame& game) {
     std::cout << "     A B C D E F G H\n  |-------------------|\n";
     for (int y = 7; y >= 0; --y) {      // print top to bottom
         std::cout << y + 1 << " |  ";
         for (int x = 0; x < 8; ++x) {
-            char c = getPieceIcon(game.board[x][y]);
+            char c = game.board[x][y].getPieceIcon();
 
             std::cout << c << " ";
         }
@@ -206,9 +202,9 @@ int main() {
     Piece myPiece = *game.getPieceAt(pos[0], row);
 
     
-    const char c = getPieceIcon(myPiece);
+    const char c = myPiece.getPieceIcon();
 
-    const std::string name = getPieceName(myPiece);
+    const std::string name = myPiece.getPieceName();
 
     std::string color;
     switch (myPiece.color)
