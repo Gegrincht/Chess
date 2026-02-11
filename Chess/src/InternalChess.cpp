@@ -67,15 +67,19 @@ std::string Piece::getPieceName() const {
 // ===== Move Class ======
 // -----------------------
 
-Move::Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY)
+Move::Move(unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY)
     : fromX(ifromX), fromY(ifromY), toX(itoX), toY(itoY) { 
 
     if (outOfBoard(ifromX) || outOfBoard(ifromY) ||
         outOfBoard(itoX) || outOfBoard(itoY))
         throw std::out_of_range("Move coordinates are out of board");
+}
 
-    Piece& thisPiece = board[fromX][fromY];
-    allowedParty = (thisPiece.type == PieceType::NONE) ? Color::NONE : thisPiece.color;
+bool Move::operator==(const Move& other) const {
+    return fromX == other.fromX &&
+        fromY == other.fromY &&
+        toX == other.toX &&
+        toY == other.toY;
 }
 
 // ----------------------------
@@ -163,9 +167,12 @@ static void toLower(std::string& s) {
 
 
 
-// TESTING SPECIFIC FUNTIONS
 
 
+
+
+
+// TESTING SPECIFIC FUNTIONS. IGNORE FOR MAKING GAME CLASSES
 
 void printBoard(ChessGame& game) {
     std::cout << "     A B C D E F G H\n  |-------------------|\n";
@@ -201,7 +208,15 @@ int main() {
         */
     //}
     
-    std::string pos;
+    Move m(0, 1, 0, 2);
+
+    game.whiteMoves.push_back(m);
+
+    auto it = std::find(game.whiteMoves.begin(), game.whiteMoves.end(), m);
+    
+    
+
+    /*std::string pos;
 
     std::cout << "Format ex: b2\nwhat do you wanna get: ";
     std::cin >> pos;
@@ -229,5 +244,5 @@ int main() {
     std::cout << "PieceIcon: " << c << 
         "\nPieceName: " << color << " " << name << 
         "\nTypeValue: " << static_cast<int>(myPiece.type) << 
-        std::endl;
+        std::endl;*/
 }
