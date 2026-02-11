@@ -194,14 +194,9 @@ int main() {
     
     Move m(0, 1, 0, 2);
 
-    //game.whiteMoves.push_back(Move(0, 1, 0, 2));
-    game.whiteMoves.push_back(Move(0, 1, 0, 3));
-    game.whiteMoves.push_back(Move(0, 1, 0, 4));
-    game.whiteMoves.push_back(Move(0, 1, 0, 5));
+    game.whiteMoves.push_back(m);
 
     auto it = std::find(game.whiteMoves.begin(), game.whiteMoves.end(), m);
-
-    std::cout << ((it != game.whiteMoves.end()) ? true : false);
     
     
 
