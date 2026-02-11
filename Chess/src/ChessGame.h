@@ -51,6 +51,11 @@ public:
     bool isCheckmate(Color color) const;
     bool isStalemate(Color color) const;
 
+    bool isEmpty(const Piece& p);
+    bool isEmpty(int x, int y) { return isEmpty(board[x][y]); }
+
+    bool isEnemy(const Piece& p);
+    bool isEnemy(int x, int y) { return isEnemy(board[x][y]); }
 };
 
 static int colCharToIndex(char col); 

@@ -112,6 +112,10 @@ Piece* ChessGame::getPieceAt(char x, int y)
     return getPieceAt(intX, y-1);
 }
 
+bool ChessGame::isEmpty(const Piece& p) {
+    return (p.type == PieceType::NONE);
+}
+
 // Move Stuff
 
 std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every chess pieces moves and puts it all in a vector 
@@ -211,7 +215,7 @@ int main() {
 
     auto it = std::find(game.whiteMoves.begin(), game.whiteMoves.end(), m);
 
-    std::cout << ((it != game.whiteMoves.end()) ? true : false);
+    std::cout << ((it != game.whiteMoves.end()) ? "True : Move m befindet sich in whiteMoves" : "False : Move m befindet sich NICHT in whiteMoves");
     
     std::cin.get();
 
