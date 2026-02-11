@@ -22,13 +22,12 @@ TODO LIST: ----------
   -> wouldBeInCheckAfterMove(const& Move)
 */
 
+// ------------------------
+// ===== Piece Class ======
+// ------------------------
+
 Piece::Piece(PieceType giventype, Color givencolor)
 	: type(giventype), color(givencolor) {}
-
-void Piece::toLower(std::string& s) const {
-    std::transform(s.begin(), s.end(), s.begin(),
-        [](unsigned char c) {return std::tolower(c); });
-}
 
 char Piece::getPieceIcon() const {
     char c;
@@ -64,7 +63,9 @@ std::string Piece::getPieceName() const {
     return c;
 }
 
-// MOVE FUCTION
+// -----------------------
+// ===== Move Class ======
+// -----------------------
 
 Move::Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY)
     : fromX(ifromX), fromY(ifromY), toX(itoX), toY(itoY) { 
@@ -77,6 +78,9 @@ Move::Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int 
     allowedParty = (thisPiece.type == PieceType::NONE) ? Color::NONE : thisPiece.color;
 }
 
+// ----------------------------
+// ===== Chessgame Class ======
+// ----------------------------
 
 ChessGame::ChessGame() : board(initDefaultBoard()) {} // do initializer list
 
@@ -112,7 +116,7 @@ Piece* ChessGame::getPieceAt(char x, int y)
     return getPieceAt(intX, y-1);
 }
 
-//Moves
+// Move Stuff
 
 std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every chess pieces moves and puts it all in a vector 
     std::vector<Move> generatedMoves;
@@ -146,6 +150,11 @@ static int colCharToIndex(char col) {
 
 static bool outOfBoard(int x) {
     return x < 0 || x > 7;
+}
+
+static void toLower(std::string& s) {
+    std::transform(s.begin(), s.end(), s.begin(),
+        [](unsigned char c) {return std::tolower(c); });
 }
 
 

@@ -15,8 +15,6 @@ struct Piece {
 
     char getPieceIcon() const;
     std::string getPieceName() const;
-private:
-    void toLower(std::string& s) const;
     
 };
 
@@ -27,24 +25,20 @@ struct Move {
     unsigned int fromY : 3;
     unsigned int toX : 3;
     unsigned int toY : 3;
-
     Color allowedParty;
-
-
 
     Move(Board& board, unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY);
 };
 
 class ChessGame {
-    std::vector<Move> whiteMoves;
-    std::vector<Move> blackMoves;
-
     Piece* getPieceAt(int x, int y);
     bool movePiece(Move move);
     std::vector<Move> generateMoves(Color color) const;
     std::vector<Move> getMoves(int x, int y) const;
 public:
     Board board; // Create the Board
+    std::vector<Move> whiteMoves;
+    std::vector<Move> blackMoves;
 
     ChessGame(); // Constructor
     Piece* getPieceAt(char x, int y);
@@ -54,3 +48,5 @@ public:
 static int colCharToIndex(char col); 
 
 static bool outOfBoard(int x);
+
+static void toLower(std::string& s);
