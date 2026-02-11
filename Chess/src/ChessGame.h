@@ -33,7 +33,7 @@ struct Move {
 
 class ChessGame {
     Piece* getPieceAt(int x, int y);
-    bool movePiece(Move move);
+    bool movePiece(Move& move);
     std::vector<Move> generateMoves(Color color) const;
     std::vector<Move> getMoves(int x, int y) const; // Checks what moves the Piece at that location has.
     bool wouldBeInCheckAfterMove(const Move& move) const; //can be const as it simulates
@@ -46,7 +46,7 @@ public:
 
     Piece* getPieceAt(char x, int y);
     bool movePiece(char fromX, int fromY, char toX, int toY);
-    bool isLegal(Move move) const;
+    bool isLegal(Move& move) const;
     bool inCheck(Color color) const;
     bool isCheckmate(Color color) const;
     bool isStalemate(Color color) const;

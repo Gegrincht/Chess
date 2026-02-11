@@ -72,7 +72,13 @@ bool Move::operator==(const Move& other) const {
 
 ChessGame::ChessGame() : board(initDefaultBoard()) {} // do initializer list
 
-bool ChessGame::movePiece(Move move) {
+bool ChessGame::movePiece(Move& move) {
+    std::vector<Move>& movesVector = (Color::WHITE == board[move.fromX][move.fromY].color) ? whiteMoves : blackMoves;
+    auto it = std::find(movesVector.begin(), movesVector.end(), move);
+
+    if (it == movesVector.end())
+        return false;
+
     if (board[move.fromX][move.fromY].type == PieceType::NONE) return false; 
     board[move.toX][move.toY] = board[move.fromX][move.fromY];
     board[move.fromX][move.fromY] = {PieceType::NONE, Color::NONE};
@@ -87,8 +93,10 @@ bool ChessGame::movePiece(char fromX, int fromY, char toX, int toY) {
 
     if (outOfBoard(fx) || outOfBoard(tx) || outOfBoard(fy) || outOfBoard(ty))
         return false; // invalid coordinates
+    
+    Move newMove(fx, fy, tx, ty);
 
-    return movePiece(fx, fy, tx, ty); // call existing movePiece(int,int,int,int)
+    return movePiece(newMove); // call existing movePiece(int,int,int,int)
 }
 
 Piece* ChessGame::getPieceAt(int x, int y)
@@ -128,7 +136,9 @@ std::vector<Move> ChessGame::getMoves(int x, int y) const {
 }
 
 
-// Static Methods
+// ---------------------------
+// ===== Static Helpers ======
+// ---------------------------
 
 static int colCharToIndex(char col) {
     col = std::toupper(col);
@@ -203,7 +213,7 @@ int main() {
 
     std::cout << ((it != game.whiteMoves.end()) ? true : false);
     
-    
+    std::cin.get();
 
     /*std::string pos;
 
