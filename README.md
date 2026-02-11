@@ -1,54 +1,51 @@
-# MakingChess
-
-Kleines Schachprojekt in C++ (Visual Studio 2026). Ziel ist eine saubere Spiel-Engine mit OpenGL-basiertem Rendering und vollständiger Zugvalidierung.
+ï»¿# MakingChess
 
 ## Kurzbeschreibung
-Ich arbeite daran, eine robuste Zug-Generierung und Legality-Überprüfung zu implementieren. Der Fokus liegt aktuell auf:
+Ich arbeite daran, eine robuste Zug-Generierung und Legality-ÃœberprÃ¼fung zu implementieren. Der Fokus liegt aktuell auf:
 - sauberen Move-Generatoren,
-- Prüfung, ob Züge den eigenen König in Schach lassen,
+- PrÃ¼fung, ob ZÃ¼ge den eigenen KÃ¶nig in Schach lassen,
 - menschenlesbarer Ausgabe von `Piece`-Informationen (Name / Zeichen),
-- Integration mit OpenGL für Fenster/Rendering.
+- Integration mit OpenGL fÃ¼r Fenster/Rendering.
 
 ## Aktueller Status
-- [x] ~~Grundstrukturen für `Board`, `Piece` und `Move` vorhanden.~~  
-- [x] ~~`Piece::getPieceIcon()` und `Piece::getPieceName()` implementiert (Icon & Name verfügbar).~~  
+- [x] ~~Grundstrukturen fÃ¼r `Board`, `Piece` und `Move` vorhanden.~~  
+- [x] ~~`Piece::getPieceIcon()` und `Piece::getPieceName()` implementiert (Icon & Name verfÃ¼gbar).~~  
 - [x] ~~Basis-`movePiece` (Index- und char-Overload) implementiert.~~  
 - [x] ~~`getPieceAt(int,int)` und `getPieceAt(char,int)` implementiert.~~  
 - [x] ~~Hilfsfunktionen `colCharToIndex`, `outOfBoard`, `toLower` vorhanden.~~  
-- [x] ~~`generateMoves(Color)` ruft `getMoves` pro Figur auf (aktuell liefert `getMoves` noch keine Züge).~~  
+- [x] ~~`generateMoves(Color)` ruft `getMoves` pro Figur auf (aktuell liefert `getMoves` noch keine ZÃ¼ge).~~  
 - [x] ~~`printBoard` Test-Helper + einfache `main`-Test-Stub vorhanden.~~
 
-Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
+Viele PrÃ¼fungen zur ZuglegitimitÃ¤t fehlen noch oder sind unvollstÃ¤ndig.
 
-Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
-
-Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
-
-Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
-
-## TODO-Liste (Kurz)
-- [ ] `std::cout << format(Piece.type, "name")` und Ausgabe als "char" möglich machen  
-  - Ziel: bequemes Ausgeben von Figurenname oder Symbol (z.B. `K` / "King").
-- [ ] Movement-Legality-Checks implementieren  
-  - Prüfen, ob eine Figur diesen Bewegungstyp rechtmäßig ausführen darf (z.B. Springer, Läufer-Diagonalen, Pfad-Freie Felder).
-- [ ] Prüfen, ob ein geplanter Zug den eigenen König in Schach setzt  
-  - Vermeidung von Zügen, die zum illegalen Zustand führen.
+TODO-Liste (Kurz)
 - [ ] Implementiere folgende Methoden:
   - `std::vector<Move> getMoves(char file, int rank);`
-  - `std::vector<Move> getMoves(const Piece& curPiece);`
-  - `bool isInCheck(Color color);`
+    - Gehe durch jedes Piece und berechne jeden mÃ¶glichen Zug.
+    - FÃ¼r jeden mÃ¶glichen Zug wird `isLegal` aufgerufen & wenn true:
+      - wird der Zug zur Vektor-Liste hinzugefÃ¼gt
+    - nachdem alle theoretisch mÃ¶glichen ZÃ¼ge durchgegangen wurden (z.â€¯B.: von B2 nach A1, A2, A3 usw. â€“ fÃ¼r jedes Feld auf dem Brett wird isLegal aufgerufen)
+  - `bool inCheck(Color color);`
+    - PrÃ¼ft, ob der KÃ¶nig der angegebenen Farbe im Schach steht.
   - `bool wouldBeInCheckAfterMove(const Move& move);`
+    - Simuliert den Zug
+    - gibt das Ergebnis von `inCheck` zurÃ¼ck
+  - `bool isLegal(const Move& move) const;`
+    - PrÃ¼ft, ob ein Zug legal ist, indem Folgendes aufgerufen wird:
+      - `wouldBeInCheckAfterMove`
+      - PrÃ¼ft, ob das Piece sich so bewegen darf
+      - andere Bedingungen, die den Zug verhindern kÃ¶nnten
+    - Wenn irgendeine Bedingung den Zug unmÃ¶glich macht, wird einfach 0 zurÃ¼ckgegeben
 
-Hinweis: Bei `getMoves` sollen Züge durch Simulieren angewendet und solche, die den König in Schach lassen, mit `continue` übersprungen werden (siehe Projektvorgabe in `.github/copilot-instructions.md`).
+Hinweis: Bei `getMoves` sollen ZÃ¼ge durch Simulieren angewendet und solche, die den KÃ¶nig in Schach lassen, mit `continue` Ã¼bersprungen werden (siehe Projektvorgabe in `.github/copilot-instructions.md`).
 
-## Erweiterte TODO-Liste (fehlende / empfohlene Punkte)
-Diese Liste ergänzt die Kernaufgaben um oft übersehene, aber wichtige Teile des Projekts.
+## Erweiterte TODO-Liste
 
 Core-Logik
-- [ ] Sonderzüge vollständig implementieren:
-  - [ ] Rochade (kurz/lang) — Bedingungen prüfen (`Rook`/`King` unmoved, Felder frei, keine Durchquerung in Schach).
-  - [ ] En Passant — Zug-Validierung und Rückgängigmachung (Undo).
-  - [ ] Bauernumwandlung (Promotion) — Auswahlmechanismus & regelkonforme Ersetzung.
+- [ ] SonderzÃ¼ge vollstÃ¤ndig implementieren:
+  - [ ] Rochade (kurz/lang) â€” Bedingungen prÃ¼fen (`Rook`/`King` unmoved, Felder frei, keine Durchquerung in Schach).
+  - [ ] En Passant â€” Zug-Validierung und RÃ¼ckgÃ¤ngigmachung (Undo).
+  - [ ] Bauernumwandlung (Promotion) â€” Auswahlmechanismus & regelkonforme Ersetzung.
 - [ ] Draw- / Game-End-Checks:
   - [ ] Schachmatt- und Patt-Erkennung.
   - [ ] Unzureichendes Material, 50-Move-Rule, Drei-Zeugen-Regel (threefold repetition).
@@ -56,60 +53,32 @@ Core-Logik
   - [ ] Move-History, `undo()` / `redo()`.
   - [ ] Reversible / irreversible Zustandsfelder (z.B. en-passant, Castling-Rechte).
 
-Notation / Import & Export
-- [ ] FEN-Parsing & -Generierung (`loadFEN`, `saveFEN`) — für Tests und Position-Setup.
-- [ ] PGN-Export / Grundlegende PGN-Parsing-Unterstützung.
-
-Tests & Verifikation
-- [ ] Perft-Tests für Move-Generator (Knoten-Zählung).
-- [ ] Unit-Tests für:
-  - [ ] `getMoves` für jede Figur.
-  - [ ] `isInCheck` / `wouldBeInCheckAfterMove`.
-- [ ] CI-Integration (z. B. GitHub Actions) für Build + Tests.
-
 Engine / Suche (optional)
-	- [ ] Einfache Bewertungsfunktion (Material + Position).
-- [ ] Minimax / Alpha-Beta mit Iterative Deepening.
-- [ ] Transposition Table (Zobrist-Hashing) für Performance.
 - [ ] Time-Management / Time Controls (Clocks).
 
 UI & UX
 - [ ] Eingabemethoden:
   - [ ] Click-to-move, Drag-and-drop, Keyboard-Shortcuts.
-  - [ ] Visual Feedback: markiere mögliche Züge, letzte Zug, Check-Hervorhebung.
-- [ ] Debug-Overlay: Board-Dumps, Züge-Log, Performance-Counters.
-- [ ] Responsive Fenster/Resizing (Viewport / Aspect Ratio für OpenGL).
-
-Performance & Architektur
-- [ ] Überlege Bitboards für Performance (später) vs. Array-Board für Einfachheit.
-- [ ] Profiler-Integration / Hotspot-Analyse (Move-Generator, Make/Unmake Move).
-- [ ] Memory-Safety & RAII-Pattern befolgen (keine globalen Roh-Pointer).
-
-Build / DevOps / Dokumentation
-- [ ] GitHub Actions: Build + Unit-Tests + simple perft-Checks.
-- [ ] Code-Style / Linter konfigurieren.
-- [ ] Entwickler-Dokumentation:
-  - [ ] `CONTRIBUTING.md`, kurze Architektur-Übersicht, HowTo-Test.
-- [ ] Logging / Verbose-Level (Debug/Info/Error).
+  - [ ] Visual Feedback: markiere mÃ¶gliche ZÃ¼ge, letzte Zug, Check-Hervorhebung.
+- [ ] Debug-Overlay: Board-Dumps, ZÃ¼ge-Log, Performance-Counters.
+- [ ] Responsive Fenster/Resizing (Viewport / Aspect Ratio fÃ¼r OpenGL).
 
 Priorisierungsvorschlag (kurz)
-1. Vollständige `getMoves` + Simulation (`wouldBeInCheckAfterMove`) + Unit-Tests (Perft).
-2. Sonderzüge (Rochade, En Passant, Promotion).
+1. VollstÃ¤ndige `getMoves` + Simulation (`wouldBeInCheckAfterMove`) + Unit-Tests (Perft).
+2. SonderzÃ¼ge (Rochade, En Passant, Promotion).
 3. `isInCheck` & Game-End-Checks (Checkmate/Patt).
-4. FEN/PGN + Undo/Redo.
+4. Undo/Redo.
 5. Basis-Engine (Alpha-Beta) + Performance-Optimierungen.
-6. UI-Verbesserungen, CI, Dokumentation.
+6. UI
 
 ## Kurzer Entwicklungsplan
-1. `getMoves` für jede Figur korrekt implementieren (inkl. Sonderzüge).
-2. Simulationsroutine hinzufügen, um `wouldBeInCheckAfterMove` zu ermitteln.
+1. `getMoves` fÃ¼r jede Figur korrekt implementieren (inkl. SonderzÃ¼ge).
+2. Simulationsroutine hinzufÃ¼gen, um `wouldBeInCheckAfterMove` zu ermitteln.
 3. `isInCheck` stabilisieren und in Move-Filter integrieren.
-4. Benutzerfreundliche Ausgabe für `Piece` (operator<< / format).
-5. Perft-Tests schreiben und in CI aufnehmen.
 
 ## Build / Run
-- Projekt in Visual Studio 2026 öffnen (`.sln` / `.vcxproj`).
-- Abhängigkeiten: OpenGL (GLEW/GLFW oder eigenes Setup) — siehe `Dependecies`-Ordner.
+- Projekt in Visual Studio 2026 Ã¶ffnen (`.sln` / `.vcxproj`).
+- AbhÃ¤ngigkeiten: OpenGL (GLEW/GLFW oder eigenes Setup) â€” siehe `Dependecies`-Ordner.
 - Build-Konfiguration: __Debug__ / __x64__ empfohlen.
 
-Wenn du möchtest, kann ich die README noch in ein ausführlicheres Entwickler-Guide-Format umwandeln oder direkt mit der Implementierung einer genannten Methode in `Chess/src` anfangen (z. B. `getMoves` / `isInCheck` / FEN-Loader).
+--------------- Ja das ist mit KI geschrieben weil ich kein bock habe eine Readme zu schreiben heul doch

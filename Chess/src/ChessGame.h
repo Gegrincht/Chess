@@ -46,7 +46,7 @@ public:
 
     Piece* getPieceAt(char x, int y);
     bool movePiece(char fromX, int fromY, char toX, int toY);
-    bool isLegal(Move move) const;
+    bool isLegal(Move& move) const;
     bool inCheck(Color color) const;
     bool isCheckmate(Color color) const;
     bool isStalemate(Color color) const;
