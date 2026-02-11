@@ -25,7 +25,6 @@ struct Move {
     unsigned int fromY : 3;
     unsigned int toX : 3;
     unsigned int toY : 3;
-    Color allowedParty;
 
     Move(unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY);
     

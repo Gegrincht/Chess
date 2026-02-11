@@ -6,22 +6,6 @@
 #include <algorithm>
 #include <cctype>
 
-/*
-TODO LIST: ----------
-* | make std::cout << format(Piece.type, "name") and "char" possible 
-  | so you can print out the name of the piece or char
-
-* | make legallity movement checks aka check if that piece can move this way and stuff
- 
-* | check if my moves sets my king in check or if my king is in still in 
-  | check if i do my next move
-
-* | impliment following methods:
-  -> getMoves(char file, int rank); & getMoves(Piece curPiece);
-  -> isInCheck(Color color);
-  -> wouldBeInCheckAfterMove(const& Move)
-*/
-
 // ------------------------
 // ===== Piece Class ======
 // ------------------------
@@ -210,9 +194,14 @@ int main() {
     
     Move m(0, 1, 0, 2);
 
-    game.whiteMoves.push_back(m);
+    //game.whiteMoves.push_back(Move(0, 1, 0, 2));
+    game.whiteMoves.push_back(Move(0, 1, 0, 3));
+    game.whiteMoves.push_back(Move(0, 1, 0, 4));
+    game.whiteMoves.push_back(Move(0, 1, 0, 5));
 
     auto it = std::find(game.whiteMoves.begin(), game.whiteMoves.end(), m);
+
+    std::cout << ((it != game.whiteMoves.end()) ? true : false);
     
     
 
