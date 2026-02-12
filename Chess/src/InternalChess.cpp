@@ -112,8 +112,12 @@ Piece* ChessGame::getPieceAt(char x, int y)
     return getPieceAt(intX, y-1);
 }
 
-bool ChessGame::isEmpty(const Piece& p) {
+bool ChessGame::isEmpty(const Piece& p) const {
     return (p.type == PieceType::NONE);
+}
+
+bool ChessGame::isEnemy(Color ownColor, const Piece& p) const {
+    return (p.color != ownColor);
 }
 
 // Move Stuff
@@ -152,6 +156,9 @@ static int colCharToIndex(char col) {
 
 static bool outOfBoard(int x) {
     return x < 0 || x > 7;
+}
+static bool outOfBoard(int x, int y) {
+    return x < 0 || x > 7 || y < 0 || y > 7;
 }
 
 static void toLower(std::string& s) {
