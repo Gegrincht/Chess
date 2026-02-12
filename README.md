@@ -20,7 +20,7 @@ Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
 
 TODO-Liste (Kurz)
 - [ ] Implementiere folgende Methoden:
-  - [ ] `bool isEmpty(int x, int y);`
+  - [x] `bool isEmpty(int x, int y);`
     - Prüfe ob feld Leer ist.
   - [ ] `bool isEnemy(int x, int y, Color ownColor);`
     - Prüfe ob im Feld ein gegner ist.
