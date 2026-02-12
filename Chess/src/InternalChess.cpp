@@ -88,7 +88,7 @@ bool ChessGame::movePiece(Move& move) {
 bool ChessGame::movePiece(char fromX, int fromY, char toX, int toY) {
     int fx = colCharToIndex(fromX);
     int tx = colCharToIndex(toX);
-    int fy = fromY - 1; // chess ranks are 1-8, array is 0-7
+    int fy = fromY - 1; // chess ys are 1-8, array is 0-7
     int ty = toY - 1;
 
     if (outOfBoard(fx) || outOfBoard(tx) || outOfBoard(fy) || outOfBoard(ty))
@@ -128,21 +128,36 @@ std::vector<Move> ChessGame::generateMoves(Color color) const { // calls every c
 
     generatedMoves.reserve(220);
 
-    for (int file = 0; file <= 7; file++) {
-        for (int rank = 0; rank <= 7; rank++) {
-            if (board[file][rank].color != color || board[file][rank].type == PieceType::NONE)
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            if (board[x][y].color != color || board[x][y].type == PieceType::NONE)
                 continue;
-            std::vector<Move> x = getMoves(file, rank);
-            generatedMoves.insert(generatedMoves.end(), x.begin(), x.end());
+            std::vector<Move> vec = getMoves(x, y);
+            generatedMoves.insert(generatedMoves.end(), vec.begin(), vec.end());
         }
     }
     return generatedMoves;
 }
 
-std::vector<Move> ChessGame::getMoves(int x, int y) const {
-    return std::vector<Move>{};
+std::vector<Move> ChessGame::getMoves(int ix, int iy) const {
+    if (outOfBoard(ix, iy)) return {};
+    const Piece& p = board[ix][iy];
+    if (p.type == PieceType::NONE) return {};
+    std::vector<Move> vec;
+
+    for (int x = 0; x < 8; x++) {
+        for (int y = 0; y < 8; y++) {
+            const Move m(ix, iy, x, y);
+            if (ix == x && iy == y)
+                continue; // skip same square
+            else if (isLegal(m))
+                vec.push_back(m);
+        }
+    }
+    return vec;
 }
 
+// IMPLEMENT ISLEGAL() HERE NEXT!!!
 
 // ---------------------------
 // ===== Static Helpers ======

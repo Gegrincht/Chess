@@ -15,7 +15,6 @@ struct Piece {
 
     char getPieceIcon() const;
     std::string getPieceName() const;
-    
 };
 
 using Board = std::array<std::array<Piece, 8>, 8>; // defines the chess board
@@ -34,9 +33,18 @@ struct Move {
 class ChessGame {
     Piece* getPieceAt(int x, int y);
     bool movePiece(Move& move);
+
+    bool whiteKingMoved = false;
+    bool blackKingMoved = false;
+    bool whiteRookAMoved = false;
+    bool whiteRookHMoved = false;
+    bool blackRookAMoved = false;
+    bool blackRookHMoved = false;
+
     std::vector<Move> generateMoves(Color color) const;
     std::vector<Move> getMoves(int x, int y) const; // Checks what moves the Piece at that location has.
     bool wouldBeInCheckAfterMove(const Move& move) const; //can be const as it simulates
+    bool pieceCanMoveLikeThat(const Move& move) const;
 public:
     Board board; // Create the Board
     std::vector<Move> whiteMoves;
@@ -46,7 +54,7 @@ public:
 
     Piece* getPieceAt(char x, int y);
     bool movePiece(char fromX, int fromY, char toX, int toY);
-    bool isLegal(Move& move) const;
+    bool isLegal(const Move& move) const;
     bool inCheck(Color color) const;
     bool isCheckmate(Color color) const;
     bool isStalemate(Color color) const;
@@ -56,6 +64,9 @@ public:
 
     bool isEnemy(Color ownColor, const Piece& p) const;
     bool isEnemy(Color ownColor, int x, int y) const { return isEnemy(ownColor, board[x][y]); }
+    
+    bool pathClear(Move& m)
+
 };
 
 static int colCharToIndex(char col); 
