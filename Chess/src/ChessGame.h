@@ -15,6 +15,8 @@ struct Piece {
 
     char getPieceIcon() const;
     std::string getPieceName() const;
+    bool isColor(Color exColor) const;
+    bool exists() const;
 };
 
 using Board = std::array<std::array<Piece, 8>, 8>; // defines the chess board
@@ -58,14 +60,8 @@ public:
     bool inCheck(Color color) const;
     bool isCheckmate(Color color) const;
     bool isStalemate(Color color) const;
-
-    bool isEmpty(const Piece& p) const;
-    bool isEmpty(int x, int y) const { return isEmpty(board[x][y]); }
-
-    bool isEnemy(Color ownColor, const Piece& p) const;
-    bool isEnemy(Color ownColor, int x, int y) const { return isEnemy(ownColor, board[x][y]); }
     
-    bool pathClear(Move& m)
+    bool pathClear(Move& m);
 
 };
 

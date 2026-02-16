@@ -47,6 +47,14 @@ std::string Piece::getPieceName() const {
     return c;
 }
 
+bool Piece::isColor(Color exColor) const {
+    return (color != exColor);
+}
+
+bool Piece::exists() const {
+    return (type != PieceType::NONE);
+}
+
 // -----------------------
 // ===== Move Class ======
 // -----------------------
@@ -79,7 +87,7 @@ bool ChessGame::movePiece(Move& move) {
     if (it == movesVector.end())
         return false;
 
-    if (board[move.fromX][move.fromY].type == PieceType::NONE) return false; 
+    if (!board[move.fromX][move.fromY].exists()) return false;
     board[move.toX][move.toY] = board[move.fromX][move.fromY];
     board[move.fromX][move.fromY] = {PieceType::NONE, Color::NONE};
     return true;
@@ -110,14 +118,6 @@ Piece* ChessGame::getPieceAt(char x, int y)
 {
     int intX = colCharToIndex(x);
     return getPieceAt(intX, y-1);
-}
-
-bool ChessGame::isEmpty(const Piece& p) const {
-    return (p.type == PieceType::NONE);
-}
-
-bool ChessGame::isEnemy(Color ownColor, const Piece& p) const {
-    return (p.color != ownColor);
 }
 
 // Move Stuff
@@ -157,7 +157,26 @@ std::vector<Move> ChessGame::getMoves(int ix, int iy) const {
     return vec;
 }
 
-// IMPLEMENT ISLEGAL() HERE NEXT!!!
+bool ChessGame::isLegal(const Move& move) const {
+    const Piece& sourcePiece = board[move.fromX][move.fromY];
+    const Piece& targetPiece = board[move.toX][move.toY];
+    //Move inside board
+    if (outOfBoard(move.fromX, move.fromY))
+        return false;
+
+    //Piece exists
+    if (!sourcePiece.exists())
+        return false;
+
+    //Zielfarbe nicht gleich Quellfarbe
+    if (sourcePiece.color == targetPiece.color)
+        return false;
+
+}
+
+//
+// ISLEGAL HELPERS
+//
 
 // ---------------------------
 // ===== Static Helpers ======

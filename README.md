@@ -20,15 +20,15 @@ Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
 
 # isLegal ToDo Liste
 
-- [ ] check if move is inside board
+- [x] check if move is inside board
     - Prüfe, ob `move.toX` und `move.toY` innerhalb 0–7 liegen
     - Hilfsfunktion: `bool outOfBoard(int x, int y);`
 
-- [ ] check if from-square has a piece
+- [x] check if from-square has a piece
     - Prüfe, ob auf `move.fromX, move.fromY` ein Piece existiert
     - Hilfsfunktion: `bool isEmpty(int x, int y);`
 
-- [ ] check if target square is not same color
+- [x] check if target square is not same color
     - Stelle sicher, dass das Ziel nicht von einem eigenen Piece belegt ist
     - Hilfsfunktion: `bool isEnemy(int x, int y, Color ownColor);`
 
@@ -36,15 +36,15 @@ Viele Prüfungen zur Zuglegitimität fehlen noch oder sind unvollständig.
     - Prüft, ob die Bewegung geometrisch korrekt ist für das Piece
     - Hilfsfunktion: `bool pieceCanMoveLikeThat(const Move& move);`
     - Muss berücksichtigen:
-        - Rook → gerade Linien
-        - Bishop → Diagonale
-        - Queen → Rook + Bishop
-        - Knight → L-Form
-        - King → 1 Feld + Castling
-        - Pawn → 1 Feld, 2 Felder, diagonales Capture, en passant
+        - [ ] Rook → gerade Linien
+        - [ ] Bishop → Diagonale
+        - [ ] Queen → Rook + Bishop
+        - [ ] Knight → L-Form
+        - [ ] King → 1 Feld + Castling
+        - [ ] Pawn → 1 Feld, 2 Felder, diagonales Capture, en passant
 
-- [ ] check for path blocking for sliding pieces
-    - Prüft, ob Rook, Bishop, Queen auf ihrem Weg nicht von eigenen oder gegnerischen Figuren blockiert werden
+        - [ ] check for path blocking for sliding pieces
+            - Prüft, ob Rook, Bishop, Queen auf ihrem Weg nicht von eigenen oder gegnerischen Figuren blockiert werden
 
 - [ ] handle special moves
     - [ ] castling
