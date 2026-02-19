@@ -48,7 +48,7 @@ std::string Piece::getPieceName() const {
 }
 
 bool Piece::isColor(Color exColor) const {
-    return (color != exColor);
+    return (color == exColor);
 }
 
 bool Piece::exists() const {
@@ -166,11 +166,26 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
     case NONE:
         return false;
     case PAWN:
-        if (move.fromX == move.toX && //check normal move
+        if 
+            (move.fromX == move.toX && //check normal move
             ((move.fromY - 1 == move.toY && srcP.color == Color::BLACK) || (move.fromY + 1 == move.toY && srcP.color == Color::WHITE)) &&
             tgtP.type == NONE)
             return true;
-        else if ((move.fromX + 1 == move.toX || move.fromX -1 == move.toX)) //check for normal take
+        else if 
+            (
+                return true;
+            )
+        else if 
+            ((
+                move.fromX + 1 == move.toX || 
+                move.fromX -1 == move.toX
+            ) && //check for normal take - Does the move want to go one the right or left
+            (
+                (move.fromY - 1 == move.toY && srcP.color == Color::BLACK) || // If BLACK, does it go down on the board by one
+                (move.fromY + 1 == move.toY && srcP.color == Color::WHITE) // If WHITE, does it go up on the board by one
+            ) &&
+            !tgtP.isColor(srcP.color) &&
+            tgtP.type != NONE) 
             return true;
         return false;
     default:
@@ -183,12 +198,13 @@ bool ChessGame::isLegal(const Move& move) const {
     const Piece& tgtP = board[move.toX][move.toY];
     //Move inside board
     if (outOfBoard(move.fromX, move.fromY)      ||
-        !srcP.exists()                   ||
-        srcP.color == tgtP.color  ||
+        !srcP.exists()                          ||
+        srcP.color == tgtP.color                ||
         !pieceCanMoveLikeThat(move)) 
     {
         return false;
     }
+    return true;
 }
 
 //
