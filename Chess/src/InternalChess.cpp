@@ -157,21 +157,38 @@ std::vector<Move> ChessGame::getMoves(int ix, int iy) const {
     return vec;
 }
 
+bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
+    const Piece& srcP = board[move.fromX][move.fromY];
+    const Piece& tgtP = board[move.toX][move.toY];
+    using enum PieceType;
+
+    switch (srcP.type) {
+    case NONE:
+        return false;
+    case PAWN:
+        if (move.fromX == move.toX && //check normal move
+            ((move.fromY - 1 == move.toY && srcP.color == Color::BLACK) || (move.fromY + 1 == move.toY && srcP.color == Color::WHITE)) &&
+            tgtP.type == NONE)
+            return true;
+        else if ((move.fromX + 1 == move.toX || move.fromX -1 == move.toX)) //check for normal take
+            return true;
+        return false;
+    default:
+        return false;
+    }
+}
+
 bool ChessGame::isLegal(const Move& move) const {
-    const Piece& sourcePiece = board[move.fromX][move.fromY];
-    const Piece& targetPiece = board[move.toX][move.toY];
+    const Piece& srcP = board[move.fromX][move.fromY];
+    const Piece& tgtP = board[move.toX][move.toY];
     //Move inside board
-    if (outOfBoard(move.fromX, move.fromY))
+    if (outOfBoard(move.fromX, move.fromY)      ||
+        !srcP.exists()                   ||
+        srcP.color == tgtP.color  ||
+        !pieceCanMoveLikeThat(move)) 
+    {
         return false;
-
-    //Piece exists
-    if (!sourcePiece.exists())
-        return false;
-
-    //Zielfarbe nicht gleich Quellfarbe
-    if (sourcePiece.color == targetPiece.color)
-        return false;
-
+    }
 }
 
 //
