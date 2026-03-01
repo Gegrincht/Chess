@@ -162,6 +162,7 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
     const Piece& tgtP = board[move.toX][move.toY];
     using enum PieceType;
 
+	// TODO LIST ->>>>>>>>>>>>>>> REDO ENTIRE SECTION BASED ON THIS: https://chatgpt.com/c/69a38f04-ac9c-832d-9dd3-1ef26d8e3fce 
     switch (srcP.type) {
     case NONE:
         return false;
