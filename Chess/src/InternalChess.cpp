@@ -11,7 +11,7 @@
 // ------------------------
 
 Piece::Piece(PieceType giventype, Color givencolor)
-	: type(giventype), color(givencolor) {}
+	: type(giventype), color(givencolor), hasMoved(false) {}
 
 char Piece::getPieceIcon() const {
     char c;
@@ -62,8 +62,8 @@ bool Piece::exists() const {
 Move::Move(unsigned int ifromX, unsigned int ifromY, unsigned int itoX, unsigned int itoY)
     : fromX(ifromX), fromY(ifromY), toX(itoX), toY(itoY) { 
 
-    if (outOfBoard(ifromX) || outOfBoard(ifromY) ||
-        outOfBoard(itoX) || outOfBoard(itoY))
+    if (outOfBoard(ifromX, ifromY) ||
+        outOfBoard(itoX, itoY))
         throw std::out_of_range("Move coordinates are out of board");
 }
 
@@ -107,14 +107,13 @@ bool ChessGame::movePiece(char fromX, int fromY, char toX, int toY) {
     return movePiece(newMove); // call existing movePiece(int,int,int,int)
 }
 
-Piece* ChessGame::getPieceAt(int x, int y)
+const Piece* ChessGame::getPieceAt(int x, int y) const
 {
-    if (x < 0 || x > 7 || y < 0 || y > 7)
-        return NULL;
+    if (outOfBoard(x, y)) return nullptr;
     return &board[x][y];
 }
 
-Piece* ChessGame::getPieceAt(char x, int y)
+const Piece* ChessGame::getPieceAt(char x, int y) const
 {
     int intX = colCharToIndex(x);
     return getPieceAt(intX, y-1);
@@ -157,42 +156,7 @@ std::vector<Move> ChessGame::getMoves(int ix, int iy) const {
     return vec;
 }
 
-bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
-    const Piece& srcP = board[move.fromX][move.fromY];
-    const Piece& tgtP = board[move.toX][move.toY];
-    using enum PieceType;
 
-	// TODO LIST ->>>>>>>>>>>>>>> REDO ENTIRE SECTION BASED ON THIS: https://chatgpt.com/c/69a38f04-ac9c-832d-9dd3-1ef26d8e3fce 
-    switch (srcP.type) {
-    case NONE:
-        return false;
-    case PAWN:
-        if 
-            (move.fromX == move.toX && //check normal move
-            ((move.fromY - 1 == move.toY && srcP.color == Color::BLACK) || (move.fromY + 1 == move.toY && srcP.color == Color::WHITE)) &&
-            tgtP.type == NONE)
-            return true;
-        else if 
-            (
-                return true;
-            )
-        else if 
-            ((
-                move.fromX + 1 == move.toX || 
-                move.fromX -1 == move.toX
-            ) && //check for normal take - Does the move want to go one the right or left
-            (
-                (move.fromY - 1 == move.toY && srcP.color == Color::BLACK) || // If BLACK, does it go down on the board by one
-                (move.fromY + 1 == move.toY && srcP.color == Color::WHITE) // If WHITE, does it go up on the board by one
-            ) &&
-            !tgtP.isColor(srcP.color) &&
-            tgtP.type != NONE) 
-            return true;
-        return false;
-    default:
-        return false;
-    }
-}
 
 bool ChessGame::isLegal(const Move& move) const {
     const Piece& srcP = board[move.fromX][move.fromY];

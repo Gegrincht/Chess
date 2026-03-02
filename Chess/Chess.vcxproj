@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\MoveLogic.cpp" />
     <ClCompile Include="src\DefaultBoard.cpp" />
     <ClCompile Include="src\DefaultBoard.h" />
     <ClCompile Include="src\InternalChess.cpp" />

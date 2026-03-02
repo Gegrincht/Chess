@@ -15,17 +15,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Main.cpp">
+    <ClCompile Include="src\DefaultBoard.h">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MoveLogic.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InternalChess.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\DefaultBoard.h">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DefaultBoard.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
