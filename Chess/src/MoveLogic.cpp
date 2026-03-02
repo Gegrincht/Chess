@@ -63,14 +63,18 @@ bool ChessGame::canPawnMove(const Move& move) const {
         ) return true;
     // Inital two-square move
     if (
-        !src.hasMoved;
+        !src.hasMoved && // has not moved yet
         move.fromX == move.toX && // it doesnt move horizontally
-        move.fromY + (2 * dir) == move.toY &&
-        !tgt.exists() &&
-        pathClear(move)
+        move.fromY + (2 * dir) == move.toY && // moves two forward
+        !tgt.exists() && //tgt doesnt have a piece on it
+        pathClear(move) //the piece in the middle is empty
         ) return true;
     // Capture Move
-
+    if (
+        (move.fromX + 1 == move.toX || move.fromX - 1 == move.toX) && //move is one to the right or left
+        move.fromY + dir == move.toY && // move moves one forward
+        tgt.exists() && !tgt.isColor(src.color) // target has to exist and be opposite color
+        ) return true;
     // Invalid Move
     return false;
 }
