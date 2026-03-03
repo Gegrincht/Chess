@@ -13,22 +13,40 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Internals">
+      <UniqueIdentifier>{5bca0777-f25c-4e57-9604-ecb84e2623b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interface">
+      <UniqueIdentifier>{13471eb7-2748-402f-8523-230c90c0d715}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DefaultBoard.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MoveLogic.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Main.cpp">
+    <ClCompile Include="src\DefaultBoard.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="src\InternalChess.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Internals</Filter>
     </ClCompile>
-    <ClCompile Include="src\DefaultBoard.cpp">
-      <Filter>Resource Files</Filter>
+    <ClCompile Include="src\MoveLogic.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Piece.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Source Files\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Move.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ChessGame.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers.cpp">
+      <Filter>Source Files\Internals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ struct Piece {
     PieceType type = PieceType::NONE;
     Color color = Color::NONE;
     bool hasMoved;
+    bool enPassantable;
 
     Piece() = default;
     Piece(PieceType giventype, Color givencolor);
@@ -36,9 +37,6 @@ struct Move {
 };
 
 class ChessGame {
-    const Piece* getPieceAt(int x, int y) const;
-    bool movePiece(Move& move);
-
     bool whiteKingMoved = false;
     bool blackKingMoved = false;
     bool whiteRookAMoved = false;
@@ -46,6 +44,9 @@ class ChessGame {
     bool blackRookAMoved = false;
     bool blackRookHMoved = false;
 
+
+    const Piece* getPieceAt(int x, int y) const;
+    bool movePiece(Move& move);
     std::vector<Move> generateMoves(Color color) const;
     std::vector<Move> getMoves(int x, int y) const; // Checks what moves the Piece at that location has.
     bool wouldBeInCheckAfterMove(const Move& move) const; //can be const as it simulates
@@ -60,8 +61,6 @@ class ChessGame {
     bool canKingMove(const Move& move) const;
 public:
     Board board; // Create the Board
-    std::vector<Move> whiteMoves;
-    std::vector<Move> blackMoves;
 
     ChessGame(); // Constructor
 
@@ -74,9 +73,12 @@ public:
     bool pathClear(const Move& m) const;
 };
 
-static int colCharToIndex(char col); 
 
-static bool outOfBoard(int x);
-static bool outOfBoard(int x, int y);
+namespace Helpers {
+    int colCharToIndex(char col);
 
-static void toLower(std::string& s);
+    bool outOfBoard(int x);
+    bool outOfBoard(int x, int y);
+
+    void toLower(std::string& s);
+}

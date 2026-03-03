@@ -12,7 +12,7 @@ This project implements the core logic for a chess engine focused on move genera
 - [x] `Piece::getPieceIcon()` and `Piece::getPieceName()` implemented
 - [x] Basic `movePiece` (index and char overload) implemented
 - [x] `getPieceAt(int,int)` and `getPieceAt(char,int)` implemented
-- [x] Helper functions `colCharToIndex`, `outOfBoard`, `toLower` implemented
+- [x] Helper functions `Helpers::colCharToIndex`, `Helpers::outOfBoard`, `toLower` implemented
 - [x] `generateMoves(Color)` calls `getMoves` per piece
 - [x] `printBoard` test helper and a simple `main` test stub exist
 
@@ -22,7 +22,7 @@ Many checks for move legality are still missing or incomplete.
 
 - [x] Check that move is inside the board
   - Verify that `move.toX` and `move.toY` are within 0–7
-  - Helper: `bool outOfBoard(int x, int y);`
+  - Helper: `bool Helpers::outOfBoard(int x, int y);`
 
 - [x] Check that the source square has a piece
   - Verify that a piece exists at `move.fromX, move.fromY`
@@ -52,7 +52,7 @@ Many checks for move legality are still missing or incomplete.
     - King must not currently be in check
     - King must not pass through an attacked square
     - Tracking variables: `whiteKingMoved, blackKingMoved, whiteRookAMoved, whiteRookHMoved, ...`
-  - [ ] En passant
+  - [ ] En passant <- THIS IN `bool pieceCanMoveLikeThat(const Move& move);`
     - Pawn can capture en passant when `enPassantTarget` is set
     - Update `enPassantTarget` after a double pawn move
     - Helper variable example: `std::optional<std::pair<int,int>> enPassantTarget;`
@@ -85,7 +85,7 @@ Many checks for move legality are still missing or incomplete.
 - [ ] Implement or verify utility methods:
   - [x] `bool isEmpty(int x, int y);` — check whether a square is empty
   - [x] `bool isEnemy(int x, int y, Color ownColor);` — check whether a square contains an enemy piece
-  - [x] `bool outOfBoard(int x, int y)` — 2D version of `outOfBoard(int x)`
+  - [x] `bool Helpers::outOfBoard(int x, int y)` — 2D version of `Helpers::outOfBoard(int x)`
   - [x] `std::vector<Move> getMoves(char file, int rank);` — enumerate possible moves for a piece
     - For each candidate move, call `isLegal` and add it to the vector if valid
   - [ ] `bool inCheck(Color color);` — check if the specified color is in check
