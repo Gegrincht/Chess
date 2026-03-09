@@ -77,6 +77,16 @@ public:
 
 
 namespace Helpers {
+    const std::string RED = "\033[31m";
+    const std::string GREEN = "\033[32m";
+    const std::string YELLOW = "\033[33m";
+    const std::string RESET = "\033[0m";
+    
+    void logInfo(const std::string& text);
+    void logWarn(const std::string& text);
+    void logError(const std::string& text);
+    
+
     int colCharToIndex(char col);
 
     bool outOfBoard(int x);

@@ -18,8 +18,6 @@ void printBoard(ChessGame& game) {
     std::cout << "  |-------------------|\n     A B C D E F G H\n";
 }
 
-
-
 int main() {
     ChessGame game;
 

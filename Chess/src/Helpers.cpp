@@ -1,6 +1,20 @@
 #include "ChessGame.h"
+#include <iostream>
 #include <algorithm>
 #include <locale>
+
+void Helpers::logInfo(const std::string& text){
+    std::cout << GREEN << "[INFO] " << RESET << text << std::endl;
+}
+
+void Helpers::logWarn(const std::string& text){
+    std::cout << YELLOW << "[WARN] " << RESET << text << std::endl;
+}
+
+void Helpers::logError(const std::string& text){
+    std::cout << RED << "[ERROR] " << RESET << text << std::endl;
+}
+
 
 int Helpers::colCharToIndex(char col) {
     col = std::toupper(col);

@@ -10,10 +10,10 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
     switch (srcP.type) {
     case PieceType::PAWN:   return canPawnMove(move);
     case PieceType::ROOK:   return canRookMove(move);
-    case PieceType::KNIGHT: return canKnightMove(move);
-    case PieceType::BISHOP: return canBishopMove(move);
-    case PieceType::QUEEN:  return canQueenMove(move);
-    case PieceType::KING:   return canKingMove(move);
+    //case PieceType::KNIGHT: return canKnightMove(move);
+    //case PieceType::BISHOP: return canBishopMove(move);
+    //case PieceType::QUEEN:  return canQueenMove(move);
+    //case PieceType::KING:   return canKingMove(move);
     default: return false;
     }
     
@@ -52,7 +52,7 @@ bool ChessGame::canPawnMove(const Move& move) const {
     int dir = (src.color == Color::WHITE) ? 1 : -1;
     // Check if canPawnMove was called correctly
     if (!src.exists() || src.type != PieceType::PAWN) {
-        std::cout << "Function 'ChessGame::canPawnMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Pawn'" << std::endl;
+        Helpers::logError("Function 'ChessGame::canPawnMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Pawn'");
         return false; 
     }
     // Forward move
@@ -86,4 +86,8 @@ bool ChessGame::canPawnMove(const Move& move) const {
     }
     // Invalid Move
     else return false;
+}
+
+bool ChessGame::canRookMove(const Move& move) const {
+
 }
