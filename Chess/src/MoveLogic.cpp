@@ -1,4 +1,5 @@
 #include "ChessGame.h"
+#include "Logger.h"
 #include "iostream"
 #include <cstdlib>
 #include <string>
@@ -35,7 +36,7 @@ bool ChessGame::isLegal(const Move& move) const {
         srcP.color != tgtP.color &&
         pieceCanMoveLikeThat(move))
         return true;
-    Helpers::logInfo("[SPAM] - Move " + std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " -> " +
+    Log.tprefix("isLegal/SPAM").info("Move " + std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " -> " +
         std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " turned out illegal.");
     return false;
 }
@@ -44,13 +45,12 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
     const Piece& srcP = board[move.from.x][move.from.y];
     using enum PieceType;
 
-    // TODO LIST ->>>>>>>>>>>>>>> REDO ENTIRE SECTION BASED ON THIS: https://chatgpt.com/c/69a38f04-ac9c-832d-9dd3-1ef26d8e3fce 
     switch (srcP.type) {
     case PAWN:   return canPawnMove(move);
     case ROOK:   return canRookMove(move);
     //case KNIGHT: return canKnightMove(move);
-    //case BISHOP: return canBishopMove(move);
-    //case QUEEN:  return canQueenMove(move);
+    case BISHOP: return canBishopMove(move);
+    case QUEEN:  return canQueenMove(move);
     //case KING:   return canKingMove(move);
     default: return false;
     }
@@ -88,7 +88,7 @@ bool ChessGame::canPawnMove(const Move& move) const {
     int dir = (src.color == Color::WHITE) ? 1 : -1;
     // Check if canPawnMove was called correctly
     if (!src.exists() || src.type != PieceType::PAWN) {
-        Helpers::logError("Function 'ChessGame::canPawnMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Pawn'");
+        Log.tprefix("canPawnMove/Incorrect-Call").warn("Function 'ChessGame::canPawnMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Pawn'");
         return false; 
     }
     // Forward move
@@ -130,7 +130,7 @@ bool ChessGame::canRookMove(const Move& move) const {
     MoveType type = move.getMoveType();
     using enum MoveType;
     if (!src.exists() || src.type != PieceType::ROOK) {
-        Helpers::logError("Function 'ChessGame::canRookMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Rook'");
+        Log.tprefix("canRookMove/Incorrect-Call").warn("Function 'ChessGame::canRookMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Rook'");
         return false;
     }
 
@@ -145,7 +145,7 @@ bool ChessGame::canBishopMove(const Move& move) const {
     MoveType type = move.getMoveType();
     using enum MoveType;
     if (!src.exists() || src.type != PieceType::BISHOP) {
-        Helpers::logWarn("Function 'ChessGame::canBishopMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Bishop'");
+        Log.tprefix("canBishopMove/Incorrect-Call").warn("Function 'ChessGame::canBishopMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Bishop'");
         return false;
     }
 
@@ -160,7 +160,7 @@ bool ChessGame::canQueenMove(const Move& move) const {
     MoveType type = move.getMoveType();
     using enum MoveType;
     if (!src.exists() || src.type != PieceType::QUEEN) {
-        Helpers::logWarn("Function 'ChessGame::canQueenMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Queen'");
+        Log.tprefix("canQueenMove/Incorrect-Call").warn("Function 'ChessGame::canQueenMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Queen'");
         return false;
     }
 

@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\Position.cpp" />
     <ClCompile Include="src\ChessGame.cpp" />
     <ClCompile Include="src\Helpers.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ChessGame.h" />
+    <ClInclude Include="src\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\preview.html" />

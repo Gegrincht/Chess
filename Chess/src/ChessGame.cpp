@@ -16,11 +16,11 @@ bool ChessGame::tryMove(Move& move) {
     return true;
 }
 
-bool ChessGame::tryMove(char fx, int fy, char tx, int ty) {
-    int fx = Helpers::colCharToIndex(fx);
-    int tx = Helpers::colCharToIndex(tx);
-    int fy = fy - 1; // chess ys are 1-8, array is 0-7
-    int ty = ty - 1;
+bool ChessGame::tryMove(char ifx, int ify, char itx, int ity) {
+    int fx = Helpers::colCharToIndex(ifx);
+    int tx = Helpers::colCharToIndex(itx);
+    int fy = ify - 1; // chess ys are 1-8, array is 0-7
+    int ty = ity - 1;
 
     if (Helpers::outOfBoard(fx) || Helpers::outOfBoard(tx) || Helpers::outOfBoard(fy) || Helpers::outOfBoard(ty))
         return false; // invalid coordinates

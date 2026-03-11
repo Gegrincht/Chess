@@ -19,9 +19,6 @@ void printBoard(ChessGame& game) {
 }
 
 int main() {
-    Helpers::logInfo("Game Info");
-    Helpers::logWarn("Game Warning");
-    Helpers::logError("Game Error");
     ChessGame game;
 
     printBoard(game);

@@ -4,8 +4,6 @@
 #include <stdexcept>
 #include <utility>
 
-#define Log Logger::get()
-
 enum class PieceType { NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
 enum class Color { NONE, WHITE, BLACK };
 enum class MoveType { NONE, HORIZONTAL, VERTICAL, DIAGONAL, LSHAPE};
@@ -15,7 +13,6 @@ struct Position {
     int y;
 
     Position() = default;
-    Position(const Move& move);
     Position(int x, int y);
     
     bool operator==(const Position& other);
@@ -91,16 +88,6 @@ public:
 
 
 namespace Helpers {
-    const std::string RED = "\033[31m";
-    const std::string GREEN = "\033[32m";
-    const std::string YELLOW = "\033[33m";
-    const std::string RESET = "\033[0m";
-    
-    void logInfo(const std::string& text);
-    void logWarn(const std::string& text);
-    void logError(const std::string& text);
-    
-
     int colCharToIndex(char col);
 
     bool outOfBoard(int x);
