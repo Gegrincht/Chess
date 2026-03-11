@@ -3,7 +3,7 @@
 #include <vector>
 #include <stdexcept>
 #include <utility>
-
+#define Log Logger::get()
 enum class PieceType { NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
 enum class Color { NONE, WHITE, BLACK };
 enum class MoveType { NONE, HORIZONTAL, VERTICAL, DIAGONAL, LSHAPE};
