@@ -48,10 +48,16 @@
     <ClCompile Include="src\Helpers.cpp">
       <Filter>Source Files\Internals</Filter>
     </ClCompile>
+    <ClCompile Include="src\Position.cpp">
+      <Filter>Source Files\Internals</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ChessGame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\preview.html" />
   </ItemGroup>
 </Project>
