@@ -9,9 +9,6 @@ int Helpers::colCharToIndex(char col) {
     return col - 'A'; // 'A'->0, 'B'->1, ..., 'H'->7
 }
 
-bool Helpers::outOfBoard(int x) {
-    return x < 0 || x > 7;
-}
 bool Helpers::outOfBoard(int x, int y) {
     return x < 0 || x > 7 || y < 0 || y > 7;
 }
