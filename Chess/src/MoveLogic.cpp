@@ -22,8 +22,10 @@ std::vector<Move> ChessGame::generateMoves(Color color) { // calls every chess p
 
             Move m(from, to);
             if (isLegal(m)) {
-                Log.tprefix("generateMoves/FoundMove").info("Move found.");
-                generatedMoves.emplace_back(from, to);
+                Log.tprefix("\ngenerateMoves/FoundMove").info("Move found." + std::to_string(from.x) + "|" + std::to_string(from.y) + " -> " +
+                    std::to_string(to.x) + "|" + std::to_string(to.y));
+                Extra isDouble = m.isMoveDouble(board[from.x][from.y].color) ? Extra::DOUBLE : Extra::NONE;
+                generatedMoves.emplace_back(from, to, isDouble);
             }
         });
     });
@@ -39,8 +41,8 @@ bool ChessGame::isLegal(const Move& move) const {
         srcP.color != tgtP.color &&
         pieceCanMoveLikeThat(move))
         return true;
-    Log.tprefix("isLegal/SPAM").info("Move " + std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " -> " +
-        std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " turned out illegal.");
+    //Log.tprefix("isLegal/SPAM").info("Move " + std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " -> " +
+    //    std::to_string(move.to.x) + "|" + std::to_string(move.to.y) + " turned out illegal.");
     return false;
 }
 
@@ -75,7 +77,7 @@ bool ChessGame::pathClear(const Move& move) const {
     for (int i = 1; i < stepNumber; ++i) {
         int x = move.from.x + i * directionX;
         int y = move.from.y + i * directionY;
-        if (getPieceAt(x, y)->exists()) return false;
+        if (getPieceAt(Position(x, y))->exists()) return false;
     }
 
     return true;
@@ -103,8 +105,7 @@ bool ChessGame::canPawnMove(const Move& move) const {
     // Inital two-square move
     else if (
         !src.hasMoved && // has not moved yet
-        move.from.x == move.to.x && // it doesnt move horizontally
-        move.from.y + (2 * dir) == move.to.y && // moves two forward
+        move.isMoveDouble(src.color) &&
         !tgt.exists() && //tgt doesnt have a piece on it
         pathClear(move) //the piece in the middle is empty
         ) return true;
@@ -123,6 +124,7 @@ bool ChessGame::canPawnMove(const Move& move) const {
             tgt.enPassantable // block i want to move to is actually enPassantable  and someone didnt just do two one moves.
             ) return true;
     }
+    if (tgt.enPassantable) std::cout << tgt.enPassantable << std::endl;
     // Invalid Move
     return false;
 }

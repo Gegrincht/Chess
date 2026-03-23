@@ -20,20 +20,37 @@ void printBoard(ChessGame& game) {
 int main() {
     ChessGame game;
 
-    printBoard(game);
+    
 
-    //while (1) {
-        /*
+
+
+
+
+
+
+    game.tryMove(Position('B', 2), Position('B', 4));
+    game.tryMove(Position('B', 4), Position('B', 5));
+    std::cout << "\n\n\n\n\n\n\n\n\n\n\n\n";
+    game.tryMove(Position('C', 7), Position('C', 5));
+    std::cout << game.board[2][5].enPassantable << std::endl;
+
+
+
+    printBoard(game);
+    while (1) {
+        
         std::string from, to;
         std::cout << "What to move: ";
         std::cin >> from >> to;
 
         int fromRow = from[1] - '0';
         int toRow = to[1] - '0';
+        //Position(from[0], fromRow);
+        //Position(to[0], toRow);
+        game.tryMove(Position(from[0], fromRow), Position(to[0], toRow)); 
 
-        game.movePiece(from[0], fromRow, to[0], toRow);
-        */
-    //}
+        printBoard(game);
+    }
     
     /*Move m(0, 1, 0, 2);
 

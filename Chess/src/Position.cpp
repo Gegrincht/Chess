@@ -9,7 +9,7 @@
 /// <param name="y">0-based row index (0..7).</param>
 Position::Position(int x, int y)
 	: x(x), y(y) {
-	if (!inBoard) {
+	if (!inBoard()) {
 		Log.tprefix("Position/Constructor").error("Position construction failed -- Position not inside board parameters.");
 		throw std::out_of_range("Coordinates are out of board");
 	}
@@ -38,7 +38,7 @@ int Position::colCharToIndex(char col) const {
 }
 
 bool Position::inBoard() const {
-	return x < 0 || x > 7 || y < 0 || y > 7;
+	return x >= 0 && x <= 7 && y >= 0 && y <= 7;
 }
 
 bool Position::operator==(const Position& other) {
