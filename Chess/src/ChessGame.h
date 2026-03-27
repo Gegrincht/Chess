@@ -95,6 +95,10 @@ public:
     void clearBoard();
     void setPiece(const Position& pos, const Piece& p);
 
+    /// <summary>
+    /// Iterates over each square in an 8x8 grid and invokes a function for each position.
+    /// </summary>
+    /// <param name="f">A callable object (function, lambda, or functor) to invoke for each square position.</param>
     template<typename Func>
     void forEachSquare(Func f) {
         Position pos;
