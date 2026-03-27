@@ -19,24 +19,55 @@ void printBoard(ChessGame& game) {
     std::cout << "  |-------------------|\n     A B C D E F G H\n";
 }
 
+void benchmark(long int ITERATIONS) {
+    long long total = 0;
+    long long totalForPercent = 0;
+    std::cout << "Press Enter to start test...";
+    std::string line;
+    std::getline(std::cin, line);
 
+    //BENCHMARK PREP
+    Move m(Position('E', 2), Position('E', 4));
+
+    std::cout << "Starte Benchmark... \n";
+    int lastPercent = 0;
+    for (int i = 0; i < ITERATIONS; ++i) {
+        ChessGame tgame;
+
+        auto start = std::chrono::steady_clock::now();
+        //BENCHMARK
+        auto result = tgame.tryMove(m);
+        auto end = std::chrono::steady_clock::now();
+        std::ignore = result;
+
+        auto tempTime = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        total += tempTime;
+        totalForPercent += tempTime;
+
+        int percent = (i * 100) / ITERATIONS;
+        if (percent > lastPercent) {
+            int iterationsInPercent = i - (lastPercent * ITERATIONS / 100);
+
+            std::cout << "\033[2K\r" << std::chrono::system_clock::now() << " |---| " << percent << "%\n";
+            std::cout << "\033[2K\rProgress\t: " << i << "\n";
+            std::cout << "\033[2K\rCurrent Average\t: " << (total / (i + 1.0)) << "us\n";
+            std::cout << "\033[2K\rAverage this 1%\t: " << (totalForPercent / (iterationsInPercent * 1.0)) << "us\n";
+            std::cout << "\033[4A" << std::flush;
+
+            totalForPercent = 0;
+            lastPercent = percent;
+        }
+    }
+    std::cout << "\033[2J\033[H" << std::flush;
+    std::cout << "Average: " << (total / ITERATIONS) << "us\n";
+    std::cout << "Total: " << (total / 1000.0) << "ms\n";
+    std::cout << "Total Seconds: " << (total / 1000000.0) << "s\n";
+
+    std::cout << "\n\n----------------------------------------\n\n";
+}
 
 int main() {
-    long long total = 0;
-
-    for (int i = 0; i < 100; ++i) {
-        ChessGame tgame;
-        auto start = std::chrono::high_resolution_clock::now();
-
-        tgame.tryMove(Move(Position('E', 2), Position('E', 4)));
-
-        auto end = std::chrono::high_resolution_clock::now();
-
-        total += std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-    }
-
-    std::cout << "Average: " << (total / 100.0) << " us\n";
-    
+    benchmark(10000);
     
     ChessGame game;
     /*
