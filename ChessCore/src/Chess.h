@@ -5,8 +5,8 @@
 #include <utility>
 
 enum class PieceType { NONE, PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
-enum class Extra { NONE, DOUBLE };
 enum class Color { NONE, WHITE, BLACK };
+enum class Extra { NONE, DOUBLE };
 enum class MoveType { NONE, HORIZONTAL, VERTICAL, DIAGONAL, LSHAPE};
 
 struct Position {
@@ -56,6 +56,7 @@ struct Move {
 using Arr8By8 = std::array<std::array<Piece, 8>, 8>;
 
 class ChessGame {
+    Arr8By8 board;
     Color toMove = Color::WHITE;
 
     bool whiteKingMoved = false;
@@ -79,8 +80,6 @@ class ChessGame {
 
     void enPassantReset();
 public:
-    Arr8By8 board;
-
     ChessGame();
 
     bool tryMove(const Move& move);
@@ -92,8 +91,11 @@ public:
     bool isStalemate(const Color color) const;
     bool pathClear(const Move& move) const;
 
+    void resetBoard();
     void clearBoard();
     void setPiece(const Position& pos, const Piece& p);
+
+    void switchTurnColor(Color next);
 
     /// <summary>
     /// Iterates over each square in an 8x8 grid and invokes a function for each position.
@@ -113,4 +115,5 @@ public:
 
 namespace Helpers {
     void toLower(std::string& s);
+    Arr8By8 initDefaultBoard();
 }

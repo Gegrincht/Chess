@@ -147,14 +147,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ChessGame.h" />
+    <ClInclude Include="src\Chess.h" />
     <ClInclude Include="src\DefaultBoard.h" />
     <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ChessGame.cpp" />
-    <ClCompile Include="src\DefaultBoard.cpp" />
     <ClCompile Include="src\Helpers.cpp" />
     <ClCompile Include="src\Move.cpp" />
     <ClCompile Include="src\MoveLogic.cpp" />

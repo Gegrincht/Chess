@@ -13,15 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Internals">
-      <UniqueIdentifier>{b0b8f6e6-f471-4038-816d-f708b4228326}</UniqueIdentifier>
+    <Filter Include="Source Files\ChessGame">
+      <UniqueIdentifier>{f85b1aa5-44bf-47d5-b4e2-e460fee148fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataTypes">
+      <UniqueIdentifier>{f16590b7-4411-4b66-b91e-fb407c1c36b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PCH">
+      <UniqueIdentifier>{8b887d40-cb37-4cac-842f-dbf43fa3a469}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ChessGame.h">
+    <ClInclude Include="src\Chess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DefaultBoard.h">
@@ -33,33 +39,30 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ChessGame.cpp">
-      <Filter>Source Files\Internals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\DefaultBoard.cpp">
-      <Filter>Source Files\Internals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Helpers.cpp">
-      <Filter>Source Files\Internals</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Move.cpp">
-      <Filter>Source Files\Internals</Filter>
+      <Filter>Source Files\ChessGame</Filter>
     </ClCompile>
     <ClCompile Include="src\MoveLogic.cpp">
-      <Filter>Source Files\Internals</Filter>
+      <Filter>Source Files\ChessGame</Filter>
     </ClCompile>
-    <ClCompile Include="src\pch.cpp">
-      <Filter>Source Files\Internals</Filter>
+    <ClCompile Include="src\Move.cpp">
+      <Filter>Source Files\DataTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\Piece.cpp">
-      <Filter>Source Files\Internals</Filter>
+      <Filter>Source Files\DataTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\Position.cpp">
-      <Filter>Source Files\Internals</Filter>
+      <Filter>Source Files\DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Helpers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pch.cpp">
+      <Filter>Source Files\PCH</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\preview.html">
-      <Filter>Source Files\Internals</Filter>
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
 </Project>

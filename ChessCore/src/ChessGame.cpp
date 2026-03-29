@@ -1,8 +1,8 @@
 #include "pch.h"
-#include "ChessGame.h"
+#include "Chess.h"
 #include "DefaultBoard.h"
 
-ChessGame::ChessGame() : board(initDefaultBoard()) {}
+ChessGame::ChessGame() : board(Helpers::initDefaultBoard()) {}
 
 bool ChessGame::tryMove(const Move& move) {
     std::vector<Move> movesVector = generateMoves(board[move.from.x][move.from.y].color);
@@ -41,6 +41,15 @@ const Piece* ChessGame::getPieceAt(const Position& pos) const
 
 void ChessGame::clearBoard() {
     board = Arr8By8();
+}
+
+void ChessGame::resetBoard() {
+    board = Helpers::initDefaultBoard();
+}
+
+void ChessGame::switchTurnColor(Color next = Color::NONE) {
+    if (next == Color::NONE) next = (toMove == Color::WHITE) ? Color::BLACK : Color::WHITE;
+    toMove = next;
 }
 
 void ChessGame::setPiece(const Position& pos, const Piece& p) {

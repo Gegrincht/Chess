@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "ChessGame.h"
+#include "Chess.h"
 #include "Logger.h"
 
 Move::Move(const Position& from, const Position& to, Extra ex)

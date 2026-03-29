@@ -1,5 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "ChessGame.h" 
+#include "Chess.h" 
 
-Arr8By8 initDefaultBoard();
+Arr8By8 Helpers::initDefaultBoard();

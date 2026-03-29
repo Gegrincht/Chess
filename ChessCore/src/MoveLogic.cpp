@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "ChessGame.h"
+#include "Chess.h"
 #include "Logger.h"
 
 #include <cstdlib>
