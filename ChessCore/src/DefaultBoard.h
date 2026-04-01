@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
 #include "Helpers.h"
+#include "Enums.h"
 
-Arr8By8 Helpers::initDefaultBoard();
+std::array<std::array<Piece, 8>, 8> Helpers::initDefaultBoard();

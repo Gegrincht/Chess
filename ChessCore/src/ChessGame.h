@@ -5,9 +5,9 @@
 #include "Move.h"
 #include "Position.h"
 
+
 class ChessGame {
-    using Arr8By8 = std::array<std::array<Piece, 8>, 8>;
-    Arr8By8 board;
+    std::array<std::array<Piece, 8>, 8> board;
     Color toMove = Color::WHITE;
 
     bool whiteKingMoved = false;

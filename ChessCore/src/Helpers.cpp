@@ -8,8 +8,8 @@ void Helpers::toLower(std::string& s) {
         [](unsigned char c) { return std::tolower(c); });
 }
 
-Arr8By8 Helpers::initDefaultBoard() {
-    Arr8By8 board{};
+std::array<std::array<Piece, 8>, 8> Helpers::initDefaultBoard() {
+    std::array<std::array<Piece, 8>, 8> board{};
 
     // Pawns
     for (int x = 0; x < 8; x++) {

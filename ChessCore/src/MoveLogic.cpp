@@ -2,6 +2,7 @@
 #include "ChessGame.h"
 #include "Logger.h"
 #include "Position.h"
+#include "Enums.h"
 #include <cstdlib>
 
 
@@ -54,10 +55,10 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
     switch (srcP.type) {
     case PAWN:   return canPawnMove(move);
     case ROOK:   return canRookMove(move);
-    //case KNIGHT: return canKnightMove(move);
+    case KNIGHT: return canKnightMove(move);
     case BISHOP: return canBishopMove(move);
     case QUEEN:  return canQueenMove(move);
-    //case KING:   return canKingMove(move);
+    case KING:   return canKingMove(move);
     default: return false;
     }
     
@@ -145,6 +146,18 @@ bool ChessGame::canRookMove(const Move& move) const {
         !tgt.isColor(src.color);
 }
 
+bool ChessGame::canKnightMove(const Move& move) const {
+    const Piece& src = board[move.from.x][move.from.y];
+    const Piece& tgt = board[move.to.x][move.to.y];
+    MoveType type = move.getMoveType();
+    if (!src.exists() || src.type != PieceType::KNIGHT) {
+        Log.tprefix("canKnightMove/Incorrect-Call").warn("Function 'ChessGame::canKnightMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'Knight'");
+        return false;
+    }
+
+    return (type == MoveType::LSHAPE && !tgt.isColor(src.color));
+}
+
 bool ChessGame::canBishopMove(const Move& move) const {
     const Piece& src = board[move.from.x][move.from.y];
     const Piece& tgt = board[move.to.x][move.to.y];
@@ -173,4 +186,21 @@ bool ChessGame::canQueenMove(const Move& move) const {
     return (type >= HORIZONTAL && type <= DIAGONAL) &&
         pathClear(move) &&
         !tgt.isColor(src.color);
+}
+
+bool ChessGame::canKingMove(const Move& move) const {
+    const Piece& src = board[move.from.x][move.from.y];
+    const Piece& tgt = board[move.to.x][move.to.y];
+    MoveType type = move.getMoveType();
+    int absDeltaX = std::abs(move.to.x - move.from.x);
+    int absDeltaY = std::abs(move.to.y - move.from.y);
+
+    if (!src.exists() || src.type != PieceType::KING) {
+        Log.tprefix("canKingMove/Incorrect-Call").warn("Function 'ChessGame::canKingMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'King'");
+        return false;
+    }
+
+    return type <= MoveType::DIAGONAL && type >= MoveType::HORIZONTAL &&
+        !tgt.isColor(src.color) &&
+        absDeltaX <= 1 && absDeltaY <= 1;
 }

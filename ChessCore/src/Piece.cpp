@@ -2,7 +2,6 @@
 #include "Piece.h"
 #include "Helpers.h"
 
-
 Piece::Piece(PieceType giventype, Color givencolor)
     : type(giventype), color(givencolor), hasMoved(false), enPassantable(false) {
 }

@@ -31,37 +31,43 @@
     <Filter Include="Source Files\Helpers">
       <UniqueIdentifier>{20041afe-63b7-46f0-a52e-7b1f33e8f680}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Private\Objects">
+      <UniqueIdentifier>{035d9b6f-a46d-4498-8307-32b9b3bc7f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Private\Other">
+      <UniqueIdentifier>{a36f5611-e9af-4674-8c5b-6a09761135bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Chess.h">
       <Filter>Header Files\Public</Filter>
     </ClInclude>
     <ClInclude Include="src\ChessGame.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="src\DefaultBoard.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enums.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Helpers.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Logger.h">
-      <Filter>Header Files\Private</Filter>
+      <Filter>Header Files\Private\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Move.h">
-      <Filter>Header Files\Private</Filter>
-    </ClInclude>
-    <ClInclude Include="src\pch.h">
-      <Filter>Header Files\Private</Filter>
+      <Filter>Header Files\Private\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Piece.h">
-      <Filter>Header Files\Private</Filter>
+      <Filter>Header Files\Private\Objects</Filter>
     </ClInclude>
     <ClInclude Include="src\Position.h">
-      <Filter>Header Files\Private</Filter>
+      <Filter>Header Files\Private\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DefaultBoard.h">
+      <Filter>Header Files\Private\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums.h">
+      <Filter>Header Files\Private\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Helpers.h">
+      <Filter>Header Files\Private\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Logger.h">
+      <Filter>Header Files\Private\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="src\pch.h">
+      <Filter>Header Files\Private\Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

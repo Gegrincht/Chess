@@ -1,7 +1,7 @@
 #pragma once
-#include "pch.h"
-#include "Position.h"
 #include "Enums.h"
+#include "Position.h"
+#include "pch.h"
 
 struct Move {
     Position from;

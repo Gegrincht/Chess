@@ -85,11 +85,24 @@ void benchmark(long int iterations = 10000) {
 }
 
 int main() {
-    std::cout << "Test" << std::endl;
-
     ChessGame game;
-
     printBoard(game);
+
+    for (int i = 0; i < 6; ++i) {
+        std::string line;
+        std::string from, to;
+        std::cout << "What to move: ";
+        std::getline(std::cin, line);
+        std::istringstream iss(line);
+        iss >> from >> to;
+
+        int fromRow = from[1] - '0';
+        int toRow = to[1] - '0';
+
+        game.tryMove(Move(Position(from[0], fromRow), Position(to[0], toRow)));
+        std::cout << "\033[2J\033[H"; printBoard(game);
+    }
+
     std::string randStr = randomString(6);
     std::cout << "Do you want to do a benchmark? If so type '" << randStr << "'. If the copied text is not exactly the same, program will close.\nPLEASE TYPE HERE: ";
     std::string line;

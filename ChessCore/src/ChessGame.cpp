@@ -42,7 +42,7 @@ const Piece* ChessGame::getPieceAt(const Position& pos) const
 }
 
 void ChessGame::clearBoard() {
-    board = Arr8By8();
+    board = std::array<std::array<Piece, 8>, 8>();
 }
 
 void ChessGame::resetBoard() {
