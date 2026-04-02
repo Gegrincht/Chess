@@ -6,7 +6,7 @@ Piece::Piece(PieceType giventype, Color givencolor)
     : type(giventype), color(givencolor), hasMoved(false), enPassantable(false) {
 }
 
-char Piece::getPieceIcon() const {
+char Piece::getPieceIcon(const char def) const {
     char c;
     switch (type) {
     case PieceType::PAWN:   c = 'P'; break;
@@ -15,7 +15,7 @@ char Piece::getPieceIcon() const {
     case PieceType::BISHOP: c = 'B'; break;
     case PieceType::QUEEN:  c = 'Q'; break;
     case PieceType::KING:   c = 'K'; break;
-    default: c = '.'; break;
+    default: c = def; break;
     }
 
     if (color == Color::BLACK)
@@ -46,4 +46,9 @@ bool Piece::isColor(Color exColor) const {
 
 bool Piece::exists() const {
     return (type != PieceType::NONE);
+}
+
+bool Piece::operator==(const Piece& other) {
+    return color == other.color &&
+        type == other.type;
 }

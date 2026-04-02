@@ -4,11 +4,14 @@
 #include "Piece.h"
 #include "Move.h"
 #include "Position.h"
+#include <optional>
 
 
 class ChessGame {
-    std::array<std::array<Piece, 8>, 8> board;
     Color toMove = Color::WHITE;
+    std::array<std::array<Piece, 8>, 8> board;
+
+    std::vector<Move> curMoves;
 
     bool whiteKingMoved = false;
     bool blackKingMoved = false;
@@ -18,8 +21,9 @@ class ChessGame {
     bool blackRookHMoved = false;
 
     std::vector<Move> generateMoves(Color color);
-    bool wouldBeInCheckAfterMove(const Move& move) const;
+    bool wouldBeInCheckAfterMove(const Move& move);
     bool pieceCanMoveLikeThat(const Move& move) const;
+    bool isLegal(const Move& move);
 
     // Individual Piece Movement Checks
     bool canPawnMove(const Move& move) const;
@@ -30,21 +34,25 @@ class ChessGame {
     bool canKingMove(const Move& move) const;
 
     void enPassantReset();
+    void castleUpdate();
+
+    void afterMoveHandler();
 public:
     ChessGame();
+
+    const Color getCurrentPlayer() const;
 
     bool tryMove(const Move& move);
     const Piece* getPieceAt(const Position& pos) const;
     bool tryMove(const Position& from, const Position& to);
-    bool isLegal(const Move& move) const;
     bool inCheck(Color color) const;
     bool isCheckmate(const Color color) const;
     bool isStalemate(const Color color) const;
     bool pathClear(const Move& move) const;
-
-    void resetBoard();
+    
     void clearBoard();
     void setPiece(const Position& pos, const Piece& p);
+    void resetBoard();
 
     void switchTurnColor(Color next);
 
@@ -54,6 +62,16 @@ public:
     /// <param name="f">A callable object (function, lambda, or functor) to invoke for each square position.</param>
     template<typename Func>
     void forEachSquare(Func f) {
+        Position pos;
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                pos.x = x; pos.y = y;
+                f(pos);
+            }
+        }
+    }
+    template<typename Func>
+    void forEachSquare(Func f) const {
         Position pos;
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {

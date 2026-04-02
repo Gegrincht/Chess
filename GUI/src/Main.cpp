@@ -1,4 +1,5 @@
 #include "Chess.h"
+#include "../src/Logger.h"
 #include <iostream>
 #include <chrono>
 #include <string>
@@ -22,16 +23,75 @@ std::string randomString(int length) {
 }
 
 void printBoard(ChessGame& game) {
+    const bool isWhite = game.getCurrentPlayer() == Color::WHITE;
+    std::cout << "To Move: " << (isWhite ? "White" : "Black") << "\n";
+
+    int start = isWhite ? 7 : 0;
+    int end = isWhite ? -1 : 8;
+    int step = isWhite ? -1 : 1;
+    char c;
+
+    if (game.inCheck(game.getCurrentPlayer())) Log.warn("Current player is in Check.\n");
+
     std::cout << "     A B C D E F G H\n  |-------------------|\n";
-    for (int y = 7; y >= 0; --y) {      // print top to bottom
+    for (int y = start; y != end; y += step) {
         std::cout << y + 1 << " |  ";
         for (int x = 0; x < 8; ++x) {
-            char c = game.getPieceAt(Position(x, y))->getPieceIcon();
+            c = game.getPieceAt(Position(x, y))->getPieceIcon(' ');
             std::cout << c << " ";
         }
         std::cout << " | " << y + 1 << "\n";
     }
     std::cout << "  |-------------------|\n     A B C D E F G H\n";
+}
+
+void b_printBoard(ChessGame& game) {
+    const bool isWhite = game.getCurrentPlayer() == Color::WHITE;
+    std::cout << "To Move: " << (isWhite ? "White" : "Black") << "\n";
+
+    int start = isWhite ? 7 : 0;
+    int end = isWhite ? -1 : 8;
+    int step = isWhite ? -1 : 1;
+
+    if (game.inCheck(game.getCurrentPlayer()))
+        Log.warn("Current player is in Check.\n");
+
+    std::cout << "     ";
+    if (isWhite) {
+        for (char col = 'A'; col <= 'H'; ++col) std::cout << col << "  ";
+    }
+    else {
+        for (char col = 'H'; col >= 'A'; --col) std::cout << col << "  ";
+    }
+    std::cout << "\n  |--------------------------|\n";
+
+    for (int y = start; y != end; y += step) {
+        std::cout << y + 1 << " | ";
+        for (int x = 0; x < 8; ++x) {
+            int drawX = isWhite ? x : 7 - x;
+            const Piece* p = game.getPieceAt(Position(drawX, y));
+            char c = p->getPieceIcon(' ');
+
+            bool whiteSquare = (drawX + y) % 2 == 0;
+            std::cout << (whiteSquare ? "\033[102m" : "\033[100m");
+
+            if (p->color == Color::WHITE) std::cout << "\033[93m"; 
+            else if (p->color == Color::BLACK) std::cout << "\033[30m"; 
+            else std::cout << "\033[30m"; 
+
+            std::cout << " " << c << " " << "\033[0m"; 
+        }
+        std::cout << " | " << y + 1 << "\n";
+    }
+
+    std::cout << "  |--------------------------|\n     ";
+    if (isWhite) {
+        for (char col = 'A'; col <= 'H'; ++col) std::cout << col << "  ";
+    }
+    else {
+        for (char col = 'H'; col >= 'A'; --col) std::cout << col << "  ";
+    }
+    std::cout << "\n";
 }
 
 void benchmark(long int iterations = 10000) {
@@ -86,9 +146,9 @@ void benchmark(long int iterations = 10000) {
 
 int main() {
     ChessGame game;
-    printBoard(game);
+    b_printBoard(game);
 
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 100; ++i) {
         std::string line;
         std::string from, to;
         std::cout << "What to move: ";
@@ -98,12 +158,12 @@ int main() {
 
         int fromRow = from[1] - '0';
         int toRow = to[1] - '0';
-
-        game.tryMove(Move(Position(from[0], fromRow), Position(to[0], toRow)));
-        std::cout << "\033[2J\033[H"; printBoard(game);
+        //std::cout << "\033[2J\033[H";
+        if(!game.tryMove(Move(Position(from[0], fromRow), Position(to[0], toRow)))) Log.error("Illegal Move.");
+        b_printBoard(game);
     }
 
-    std::string randStr = randomString(6);
+    std::string randStr = randomString(2);
     std::cout << "Do you want to do a benchmark? If so type '" << randStr << "'. If the copied text is not exactly the same, program will close.\nPLEASE TYPE HERE: ";
     std::string line;
     std::getline(std::cin, line);

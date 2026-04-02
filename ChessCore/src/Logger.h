@@ -14,8 +14,8 @@ private:
     Logger() {}
 
 public:
-    inline static bool showErrors = false;
-    inline static bool showWarns = false;
+    inline static bool showErrors = true;
+    inline static bool showWarns = true;
     inline static bool showInfos = false;
     inline static bool showPrefix = false;
 

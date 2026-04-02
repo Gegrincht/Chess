@@ -42,6 +42,6 @@ bool Position::inBoard() const {
 	return x >= 0 && x <= 7 && y >= 0 && y <= 7;
 }
 
-bool Position::operator==(const Position& other) {
+bool Position::operator==(const Position& other) const {
 	return x == other.x && y == other.y;
 }

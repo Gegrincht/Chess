@@ -13,5 +13,6 @@
 #include <locale>
 #include <string>
 #include <vector>
+#include <cstdlib>
 
 #endif //PCH_H

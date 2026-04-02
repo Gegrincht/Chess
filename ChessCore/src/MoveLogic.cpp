@@ -3,8 +3,6 @@
 #include "Logger.h"
 #include "Position.h"
 #include "Enums.h"
-#include <cstdlib>
-
 
 std::vector<Move> ChessGame::generateMoves(Color color) {
     std::vector<Move> generatedMoves;
@@ -31,17 +29,19 @@ std::vector<Move> ChessGame::generateMoves(Color color) {
             }
         });
     });
+    std::cout << "---------> Calcuated " << generatedMoves.size() << " Moves for party " << (color == Color::WHITE ? "white" : "black") << "!\n";
     return generatedMoves;
 }
 
-bool ChessGame::isLegal(const Move& move) const {
+bool ChessGame::isLegal(const Move& move) {
     const Piece& srcP = board[move.from.x][move.from.y];
     const Piece& tgtP = board[move.to.x][move.to.y];
 
     if (move.from.inBoard() &&
         srcP.exists() &&
         srcP.color != tgtP.color &&
-        pieceCanMoveLikeThat(move))
+        pieceCanMoveLikeThat(move) &&
+        !wouldBeInCheckAfterMove(move))
         return true;
     Log.tprefix("isLegal/SPAM").info("Move " + std::to_string(move.from.x) + "|" + std::to_string(move.from.y) + " -> " +
         std::to_string(move.to.x) + "|" + std::to_string(move.to.y) + " turned out illegal.");
@@ -67,8 +67,8 @@ bool ChessGame::pieceCanMoveLikeThat(const Move& move) const {
 bool ChessGame::pathClear(const Move& move) const {
     int deltaX = move.to.x - move.from.x;
     int deltaY = move.to.y - move.from.y;
-    int absDeltaX = std::abs(deltaX);
-    int absDeltaY = std::abs(deltaY);
+    int absDeltaX = abs(deltaX);
+    int absDeltaY = abs(deltaY);
     if (!((deltaX == 0) || (deltaY == 0) || (absDeltaX == absDeltaY)))
         return false;
 
@@ -113,7 +113,7 @@ bool ChessGame::canPawnMove(const Move& move) const {
         ) return true;
     // Capture Move´& Enpassant
     else if (
-        (move.to.x - move.from.x) == 1 && //move is one to the right or left
+        abs(move.to.x - move.from.x) == 1 && //move is one to the right or left
         move.from.y + dir == move.to.y) { // move moves one forward
         const Piece& enpTGT = board[move.to.x][move.to.y - dir];
         if (// Normal Take
@@ -192,8 +192,8 @@ bool ChessGame::canKingMove(const Move& move) const {
     const Piece& src = board[move.from.x][move.from.y];
     const Piece& tgt = board[move.to.x][move.to.y];
     MoveType type = move.getMoveType();
-    int absDeltaX = std::abs(move.to.x - move.from.x);
-    int absDeltaY = std::abs(move.to.y - move.from.y);
+    int absDeltaX = abs(move.to.x - move.from.x);
+    int absDeltaY = abs(move.to.y - move.from.y);
 
     if (!src.exists() || src.type != PieceType::KING) {
         Log.tprefix("canKingMove/Incorrect-Call").warn("Function 'ChessGame::canKingMove' was called incorrectly cause either: Source Piece doesnt exists | or | Source Piece Type isnt 'King'");
